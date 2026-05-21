@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>이훤 · AI 기반 서비스 개발자 포트폴리오</title>
+<meta name="description" content="이훤 — AI 기반 서비스 개발자. RAG / LLM / Computer Vision 기반 풀스택 AI 프로젝트 경험. 성능 개선 중심 개발 (추천 충돌률 99.99%→0.88%, 검색 신뢰도 90%).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0b10;
+    --bg-soft: #11131c;
+    --bg-card: #161927;
+    --border: #232739;
+    --text: #e7e9f0;
+    --text-dim: #9aa0b4;
+    --text-faint: #6b7187;
+    --accent: #6c8cff;
+    --accent-2: #b06cff;
+    --accent-3: #36d6c3;
+    --good: #4ade80;
+    --grad: linear-gradient(120deg, #6c8cff 0%, #b06cff 50%, #36d6c3 100%);
+    --maxw: 1080px;
+    --r: 16px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: 'Inter', -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  }
+  code, .mono { font-family: 'JetBrains Mono', monospace; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+  section { padding: 92px 0; position: relative; }
+  .eyebrow { font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+  h2.title { font-size: clamp(28px, 4vw, 40px); font-weight: 800; line-height: 1.15; letter-spacing: -.02em; }
+  .lead { color: var(--text-dim); font-size: 17px; max-width: 660px; margin-top: 16px; }
+
+  .glow { position: fixed; border-radius: 50%; filter: blur(120px); opacity: .22; z-index: -1; pointer-events: none; }
+  .glow.a { top: -120px; left: -100px; width: 480px; height: 480px; background: #6c8cff; }
+  .glow.b { top: 26%; right: -160px; width: 520px; height: 520px; background: #b06cff; opacity: .15; }
+  .glow.c { bottom: -160px; left: 18%; width: 460px; height: 460px; background: #36d6c3; opacity: .11; }
+
+  nav { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(14px); background: rgba(10,11,16,.72); border-bottom: 1px solid var(--border); }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 62px; }
+  .brand { font-weight: 800; letter-spacing: -.01em; display: flex; align-items: center; gap: 10px; }
+  .brand .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--grad); box-shadow: 0 0 14px #6c8cff88; }
+  .navlinks { display: flex; gap: 24px; font-size: 14px; }
+  .navlinks a { color: var(--text-dim); }
+  .navlinks a:hover { color: var(--text); text-decoration: none; }
+  @media (max-width: 760px) { .navlinks { display: none; } }
+
+  /* hero */
+  .hero { padding: 104px 0 72px; }
+  .hero .badge { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--text-dim); background: var(--bg-card); border: 1px solid var(--border); padding: 7px 14px; border-radius: 999px; margin-bottom: 26px; }
+  .hero .badge .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--good); animation: pulse 2.2s infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 #4ade8077; } 70% { box-shadow: 0 0 0 9px #4ade8000; } 100% { box-shadow: 0 0 0 0 #4ade8000; } }
+  .hero h1 { font-size: clamp(36px, 6.4vw, 66px); font-weight: 900; line-height: 1.07; letter-spacing: -.03em; }
+  .hero h1 .grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero .role { font-size: clamp(17px, 2.4vw, 22px); font-weight: 700; color: var(--text); margin-top: 18px; }
+  .hero p.sub { color: var(--text-dim); font-size: clamp(15px, 2vw, 18px); margin-top: 16px; max-width: 640px; }
+  .hero .cta { display: flex; gap: 12px; margin-top: 34px; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 12px; font-weight: 600; font-size: 15px; border: 1px solid transparent; cursor: pointer; transition: .18s; }
+  .btn.primary { background: var(--grad); color: #0a0b10; }
+  .btn.primary:hover { transform: translateY(-2px); text-decoration: none; box-shadow: 0 12px 30px -8px #6c8cff88; }
+  .btn.ghost { background: var(--bg-card); border-color: var(--border); color: var(--text); }
+  .btn.ghost:hover { border-color: var(--accent); text-decoration: none; }
+
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 60px; }
+  @media (max-width: 760px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+  .stat { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r); padding: 22px; }
+  .stat .num { font-size: 30px; font-weight: 900; letter-spacing: -.02em; background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .stat .lbl { color: var(--text-dim); font-size: 13.5px; margin-top: 6px; }
+
+  .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r); padding: 26px; }
+
+  /* about */
+  .about-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; margin-top: 44px; }
+  @media (max-width: 820px) { .about-grid { grid-template-columns: 1fr; } }
+  .about-grid p { color: var(--text-dim); font-size: 15.5px; margin-bottom: 14px; }
+  .about-grid p b { color: var(--text); }
+  .timeline { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+  .timeline li { position: relative; padding-left: 22px; font-size: 14.5px; color: var(--text-dim); }
+  .timeline li::before { content: ""; position: absolute; left: 0; top: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+  .timeline li b { color: var(--text); display: block; }
+  .timeline .yr { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-faint); }
+
+  /* skills */
+  .skill-group { margin-bottom: 22px; }
+  .skill-group .gl { font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 12px; }
+  .stack { display: flex; flex-wrap: wrap; gap: 10px; }
+  .chip { font-size: 13.5px; font-weight: 500; padding: 9px 15px; border-radius: 10px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-dim); transition: .16s; }
+  .chip:hover { border-color: var(--accent); color: var(--text); transform: translateY(-2px); }
+  .chip b { color: var(--text); font-weight: 700; }
+
+  /* projects */
+  .proj-featured { display: flex; flex-direction: column; gap: 22px; margin-top: 44px; }
+  .pcard { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r); padding: 30px; transition: .2s; position: relative; overflow: hidden; }
+  .pcard::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 4px; background: var(--grad); opacity: .85; }
+  .pcard:hover { border-color: #2f3650; transform: translateY(-3px); }
+  .pcard .phead { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .pcard h3 { font-size: 23px; font-weight: 800; letter-spacing: -.01em; }
+  .pcard .meta { font-size: 13px; color: var(--text-faint); font-family: 'JetBrains Mono', monospace; margin-top: 6px; }
+  .pcard .role-tag { font-size: 12px; font-weight: 700; padding: 5px 11px; border-radius: 999px; background: #6c8cff18; color: var(--accent); border: 1px solid #6c8cff33; white-space: nowrap; }
+  .pcard .role-tag.lead { background: #b06cff18; color: var(--accent-2); border-color: #b06cff33; }
+  .pcard .oneline { color: var(--text); font-size: 16px; margin: 14px 0 16px; font-weight: 500; }
+  .pcard ul.pbul { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-bottom: 18px; }
+  .pcard ul.pbul li { color: var(--text-dim); font-size: 14.5px; padding-left: 20px; position: relative; }
+  .pcard ul.pbul li::before { content: ""; position: absolute; left: 0; top: 9px; width: 6px; height: 6px; border-radius: 2px; background: var(--accent-3); }
+  .pcard ul.pbul li b { color: var(--text); }
+  .ptech { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 6px; }
+  .ptech span { font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--text-dim); background: var(--bg-soft); border: 1px solid var(--border); padding: 4px 9px; border-radius: 7px; }
+  .pcard .plinks { display: flex; gap: 16px; margin-top: 16px; font-size: 14px; font-weight: 600; }
+  .metric-row { display: flex; gap: 26px; flex-wrap: wrap; margin: 4px 0 18px; }
+  .metric { }
+  .metric .mv { font-size: 24px; font-weight: 900; background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1; }
+  .metric .ml { font-size: 12.5px; color: var(--text-faint); margin-top: 2px; }
+
+  .proj-more { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 22px; }
+  @media (max-width: 880px) { .proj-more { grid-template-columns: 1fr; } }
+  .mini { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 22px; transition: .18s; display: flex; flex-direction: column; }
+  .mini:hover { border-color: #2f3650; transform: translateY(-3px); }
+  .mini h4 { font-size: 17px; font-weight: 700; }
+  .mini .meta { font-size: 12px; color: var(--text-faint); font-family: 'JetBrains Mono', monospace; margin: 5px 0 12px; }
+  .mini p { color: var(--text-dim); font-size: 14px; flex: 1; }
+  .mini .bigm { font-size: 13px; font-weight: 700; color: var(--accent-3); margin: 12px 0 10px; }
+  .mini .ptech { margin-bottom: 0; }
+  .mini .plinks { margin-top: 14px; font-size: 13.5px; font-weight: 600; }
+
+  /* contact */
+  .contact { text-align: center; }
+  .contact .lead { margin: 16px auto 0; }
+  .contact-links { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 34px; }
+  .clink { display: inline-flex; align-items: center; gap: 9px; padding: 14px 22px; border-radius: 12px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text); font-weight: 600; font-size: 15px; transition: .18s; }
+  .clink:hover { border-color: var(--accent); transform: translateY(-2px); text-decoration: none; }
+  .clink .k { color: var(--text-faint); font-size: 13px; font-weight: 500; }
+
+  footer { border-top: 1px solid var(--border); padding: 40px 0; text-align: center; }
+  footer .copy { color: var(--text-faint); font-size: 13px; }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+<div class="glow a"></div>
+<div class="glow b"></div>
+<div class="glow c"></div>
+
+<nav>
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span> 이훤<span style="color:var(--text-faint);font-weight:500;"> · AI Engineer</span></div>
+    <div class="navlinks">
+      <a href="#about">소개</a>
+      <a href="#skills">기술 스택</a>
+      <a href="#projects">프로젝트</a>
+      <a href="#contact">연락처</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="badge"><span class="pulse"></span> 신입 AI 엔지니어 · 채용 중</div>
+    <h1>문제를 <span class="grad">AI로 풀고</span><br>수치로 증명하는 개발자</h1>
+    <div class="role">이훤 · AI 기반 서비스 개발자</div>
+    <p class="sub">
+      RAG · LLM · Computer Vision 기반의 풀스택 AI 프로젝트를 기획부터 모델링, 백엔드, 배포까지 직접 만들어 왔습니다.
+      논문을 읽고 실제 시스템에 적용해 <b>성능을 수치로 끌어올리는 것</b>에 집중합니다.
+    </p>
+    <div class="cta">
+      <a class="btn primary" href="#projects">프로젝트 보기 ↓</a>
+      <a class="btn ghost" href="https://github.com/LeeHwon0217" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn ghost" href="mailto:wob0217@gmail.com">이메일 보내기</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat reveal"><div class="num" data-count="5" data-suffix="">5</div><div class="lbl">완성한 AI 풀스택 프로젝트</div></div>
+      <div class="stat reveal"><div class="num" data-count="99.1" data-suffix="%p">99.1%p</div><div class="lbl">추천 충돌률 개선 (KMDb)</div></div>
+      <div class="stat reveal"><div class="num" data-count="90.0" data-suffix="%">90.0%</div><div class="lbl">멀티모달 검색 신뢰도 (DB_insight)</div></div>
+      <div class="stat reveal"><div class="num" data-count="4" data-suffix="">4</div><div class="lbl">마이크로서비스 AWS 배포 (아이마음)</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="eyebrow reveal">소개</div>
+    <h2 class="title reveal">요식업 8년에서 AI 개발자로</h2>
+    <div class="about-grid">
+      <div class="reveal">
+        <p>전국 직영점 신입사원 필기시험 1위로 시작해 8년간 요식업 현장에서 <b>교육·운영·문제 해결</b>을 맡았습니다. 사람의 문제를 빠르게 파악하고 구조를 만들어 해결하는 일이 즐거웠고, 그 방식을 기술로 확장하고 싶어 AI 개발로 전환했습니다.</p>
+        <p>코리아 IT 아카데미에서 <b>웹 풀스택 · 머신러닝 · 딥러닝 · LLM/RAG · 컴퓨터비전</b>을 단계적으로 학습하고, 5개의 실전 AI 프로젝트를 직접 완성했습니다. 한 프로젝트에서는 팀장으로 4개 마이크로서비스를 AWS에 배포했습니다.</p>
+        <p>가장 좋아하는 작업 방식은 <b>"논문을 읽고 → 실제 시스템에 적용하고 → 수치로 결과를 증명"</b>하는 것입니다. 추천 시스템 충돌률을 99.99%에서 0.88%로, 영상 검색 신뢰도를 90%까지 끌어올린 경험이 그 증거입니다.</p>
+      </div>
+      <div class="card reveal">
+        <ul class="timeline">
+          <li><span class="yr">2025.03 ~ 2026.05</span><b>코리아 IT 아카데미 강남</b>AI 활용 응용SW 개발 + 영상객체탐지 플랫폼 (총 2,060시간)</li>
+          <li><span class="yr">2025.05 ~</span><b>숭실대 컴퓨터공학과</b>평생교육원 수강 중</li>
+          <li><span class="yr">2020.12 ~ 2024.03</span><b>요식업 (라무진 · 월화식당 등)</b>신입 교육 · 조리 · 운영</li>
+          <li><span class="yr">2019.03 ~ 2020.10</span><b>육군 병장 만기제대</b></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" style="background:var(--bg-soft);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="wrap">
+    <div class="eyebrow reveal">기술 스택</div>
+    <h2 class="title reveal">다룰 수 있는 도구들</h2>
+    <div style="margin-top:44px;">
+      <div class="skill-group reveal">
+        <div class="gl">LLM / RAG</div>
+        <div class="stack">
+          <div class="chip"><b>LangChain</b></div>
+          <div class="chip"><b>ChromaDB</b> Vector DB</div>
+          <div class="chip"><b>RAG</b> 파이프라인</div>
+          <div class="chip"><b>OpenAI API</b></div>
+          <div class="chip"><b>Google Gemini</b></div>
+          <div class="chip"><b>HuggingFace</b></div>
+          <div class="chip">Prompt Engineering</div>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <div class="gl">Computer Vision</div>
+        <div class="stack">
+          <div class="chip"><b>YOLOv8</b> Segmentation</div>
+          <div class="chip"><b>MediaPipe</b> Pose</div>
+          <div class="chip"><b>CLIP</b></div>
+          <div class="chip"><b>VARCO-VISION</b> OCR</div>
+          <div class="chip"><b>OpenCV</b></div>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <div class="gl">ML / DL</div>
+        <div class="stack">
+          <div class="chip"><b>PyTorch</b></div>
+          <div class="chip"><b>RQ-VAE</b></div>
+          <div class="chip"><b>XGBoost</b></div>
+          <div class="chip"><b>scikit-learn</b></div>
+          <div class="chip">Transformer</div>
+          <div class="chip">강화학습</div>
+          <div class="chip">faster-whisper</div>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <div class="gl">Backend & Infra</div>
+        <div class="stack">
+          <div class="chip"><b>FastAPI</b></div>
+          <div class="chip"><b>Express.js</b> · Node.js</div>
+          <div class="chip"><b>MySQL</b> · MongoDB</div>
+          <div class="chip">JWT · OAuth</div>
+          <div class="chip"><b>Docker</b> Compose</div>
+          <div class="chip"><b>AWS</b> EC2 · S3</div>
+        </div>
+      </div>
+      <div class="skill-group reveal">
+        <div class="gl">Frontend</div>
+        <div class="stack">
+          <div class="chip"><b>Next.js</b> · React</div>
+          <div class="chip"><b>TypeScript</b></div>
+          <div class="chip">Tailwind CSS</div>
+          <div class="chip">Recharts</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="wrap">
+    <div class="eyebrow reveal">대표 프로젝트</div>
+    <h2 class="title reveal">기획부터 배포까지 직접 만든 것들</h2>
+
+    <div class="proj-featured">
+      <!-- 아이마음 -->
+      <article class="pcard reveal">
+        <div class="phead">
+          <div>
+            <h3>아이마음 (AiMind)</h3>
+            <div class="meta">2026.01 – 02 · 아동 HTP 그림 심리 분석 플랫폼</div>
+          </div>
+          <span class="role-tag lead">팀장</span>
+        </div>
+        <p class="oneline">부모가 아이의 그림을 올리면 AI가 심리 발달 상태를 해석해 리포트로 돌려주는 서비스.</p>
+        <ul class="pbul">
+          <li><b>YOLOv8 Instance Segmentation</b>으로 나무·집·사람 그림 요소 감지(최대 18클래스). 심리검사 특성상 누락이 곧 오판이라 confidence를 0.15로 낮춰 민감도를 높였습니다.</li>
+          <li><b>HTP 논문 4편을 RAG(LangChain + ChromaDB)</b>로 구축하고 Gemini 2.5로 T-Score·발달단계 해석 리포트를 생성했습니다.</li>
+          <li><b>VARCO-VISION VLM OCR</b>로 그림일기 손글씨를 인식, NF4 4-bit 양자화로 VRAM을 <b>6.8GB → 0.9GB</b>로 절감했습니다.</li>
+          <li>Frontend · Backend · AI · OCR <b>4개 마이크로서비스를 Docker화</b>하고, AWS EC2 CPU/GPU를 분리 배포해 GPU 비용을 최소화했습니다.</li>
+        </ul>
+        <div class="ptech">
+          <span>YOLOv8</span><span>Gemini 2.5</span><span>LangChain</span><span>ChromaDB</span><span>VARCO-VISION</span><span>FastAPI</span><span>Next.js</span><span>AWS EC2</span><span>Docker</span>
+        </div>
+        <div class="plinks">
+          <a href="https://github.com/Oneness-TheOne" target="_blank" rel="noopener">GitHub (Oneness-TheOne) ↗</a>
+        </div>
+      </article>
+
+      <!-- DB_insight -->
+      <article class="pcard reveal">
+        <div class="phead">
+          <div>
+            <h3>DB_insight · 멀티모달 영상 의미 검색</h3>
+            <div class="meta">2026.04 · 개인 프로젝트</div>
+          </div>
+          <span class="role-tag">개인</span>
+        </div>
+        <p class="oneline">영상을 직접 열어보지 않고도 텍스트 쿼리로 원하는 내용이 담긴 영상을 찾아내는 검색 엔진.</p>
+        <ul class="pbul">
+          <li>한국어 영상 60편을 <b>CLIP 키프레임(시각) + Whisper STT(음성)</b>로 융합 임베딩해, 화면과 발화 내용을 함께 검색합니다.</li>
+          <li><b>10가지 임베딩 방법을 직접 설계·비교</b>해 k-NN LOO 신뢰도 <b>90.0%</b>를 달성하고, 가중치 스윕으로 시각40:음성60 최적 비율을 도출했습니다.</li>
+          <li>ko-sroberta 문장 단위 멀티벡터 + 쿼리 확장으로 "12월즈음" 같은 짧은 단서도 관련 문장을 직접 히트(유사도 0.737)시켰습니다.</li>
+          <li>Flask 검색 서버 + 코사인/유클리드 하이브리드 스코어 + 3D Plotly 시각화까지 구현했습니다.</li>
+        </ul>
+        <div class="ptech">
+          <span>CLIP</span><span>faster-whisper</span><span>ko-sroberta</span><span>konlpy</span><span>Flask</span><span>Plotly</span><span>scikit-learn</span>
+        </div>
+        <div class="plinks">
+          <a href="projects/db-insight.html">자세히 보기 →</a>
+          <a href="https://github.com/LeeHwon0217" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </article>
+    </div>
+
+    <h3 style="font-size:15px;font-weight:700;color:var(--text-faint);letter-spacing:.06em;text-transform:uppercase;margin-top:46px;" class="reveal">더 많은 프로젝트</h3>
+
+    <div class="proj-more">
+      <!-- KMDb -->
+      <div class="mini reveal">
+        <h4>KMDb 영화 추천</h4>
+        <div class="meta">2026.03 · 1인 기여</div>
+        <p>TIGER 논문 기반 생성형 추천 시스템. RQ-VAE로 Semantic ID를 만들고 Prefix Constrained Decoding으로 환각을 차단했습니다.</p>
+        <div class="bigm">코드북 충돌률 99.99% → 0.88% · 환각 100% 차단</div>
+        <div class="ptech"><span>PyTorch</span><span>RQ-VAE</span><span>T5</span><span>FastAPI</span><span>Next.js</span></div>
+      </div>
+
+      <!-- 국민체력지키미 -->
+      <div class="mini reveal">
+        <h4>국민체력지키미</h4>
+        <div class="meta">2025.11 – 12 · 공공데이터 경진대회</div>
+        <p>MediaPipe Pose로 33개 관절을 실시간 추적해 운동 자세 정확도를 피드백하고, XGBoost로 연령대별 운동을 처방하는 헬스케어 플랫폼.</p>
+        <div class="bigm">실시간 30FPS · 관절 각도 기반 자세 분석</div>
+        <div class="ptech"><span>MediaPipe</span><span>XGBoost</span><span>GPT-4o-mini</span><span>React</span><span>Express</span></div>
+      </div>
+
+      <!-- 유지프로젝트 -->
+      <div class="mini reveal">
+        <h4>유지프로젝트 (YUZY)</h4>
+        <div class="meta">2025.12 – 2026.01 · 팀</div>
+        <p>국비 수업생을 위한 코드 학습 지원 플랫폼. 화면 캡처 + OCR로 코드를 추출하고, LLM이 함수 호출 흐름을 분석해 다이어그램으로 시각화합니다.</p>
+        <div class="bigm">OCR 코드 추출 + LLM 코드 흐름 시각화</div>
+        <div class="ptech"><span>Qwen2.5-Coder</span><span>Tesseract</span><span>WinRT OCR</span><span>Next.js</span><span>Express</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact" style="background:var(--bg-soft);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="wrap">
+    <div class="eyebrow reveal" style="text-align:center;">연락처</div>
+    <h2 class="title reveal">함께 문제를 풀고 싶습니다</h2>
+    <p class="lead reveal">AI 엔지니어 포지션에 지원하고 있습니다. 편하게 연락 주세요.</p>
+    <div class="contact-links reveal">
+      <a class="clink" href="mailto:wob0217@gmail.com"><span class="k">Email</span> wob0217@gmail.com</a>
+      <a class="clink" href="https://github.com/LeeHwon0217" target="_blank" rel="noopener"><span class="k">GitHub</span> LeeHwon0217</a>
+      <a class="clink" href="https://hubo0217.tistory.com" target="_blank" rel="noopener"><span class="k">Blog</span> Tistory</a>
+      <a class="clink" href="https://www.notion.so/206469eee4b580e7b869d40eab357883" target="_blank" rel="noopener"><span class="k">Notion</span> 포트폴리오</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="copy">© 2026 이훤 · AI 기반 서비스 개발자 포트폴리오</div>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  const countIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target.querySelector('.num');
+      const target = parseFloat(el.dataset.count);
+      const suffix = el.dataset.suffix || '';
+      const isFloat = el.dataset.count.includes('.');
+      const dur = 1300; const t0 = performance.now();
+      function tick(now) {
+        const p = Math.min((now - t0) / dur, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        const v = target * eased;
+        el.textContent = (isFloat ? v.toFixed(1) : Math.round(v).toLocaleString()) + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+        else el.textContent = (isFloat ? target.toFixed(1) : target.toLocaleString()) + suffix;
+      }
+      requestAnimationFrame(tick);
+      countIO.unobserve(e.target);
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.stat').forEach(el => countIO.observe(el));
+</script>
+</body>
+</html>
