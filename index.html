@@ -3,163 +3,190 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>이훤 · AI 기반 서비스 개발자 포트폴리오</title>
-<meta name="description" content="이훤 — AI 기반 서비스 개발자. RAG / LLM / Computer Vision 기반 풀스택 AI 프로젝트 경험. 성능 개선 중심 개발 (추천 충돌률 99.99%→0.88%, 검색 신뢰도 90%).">
+<title>이훤 · AI Engineer</title>
+<meta name="description" content="이훤 (Hwon Lee) — 멀티모달 RAG와 LangGraph 에이전트를 풀스택으로 구현하는 AI 엔지니어. RAG 논문 공저(Zenodo, 2저자), 풀스택, PM 경험.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0b10;
-    --bg-soft: #11131c;
-    --bg-card: #161927;
-    --border: #232739;
-    --text: #e7e9f0;
-    --text-dim: #9aa0b4;
-    --text-faint: #6b7187;
-    --accent: #6c8cff;
-    --accent-2: #b06cff;
-    --accent-3: #36d6c3;
-    --good: #4ade80;
-    --grad: linear-gradient(120deg, #6c8cff 0%, #b06cff 50%, #36d6c3 100%);
+    --bg: #0d1117;
+    --bg-soft: #161b22;
+    --panel: #161b22;
+    --panel-2: #1c2129;
+    --border: #30363d;
+    --border-soft: #21262d;
+    --text: #e6edf3;
+    --dim: #8b949e;
+    --faint: #6e7681;
+    --green: #3fb950;
+    --blue: #58a6ff;
+    --purple: #bc8cff;
+    --orange: #ffa657;
+    --cyan: #56d4dd;
+    --red: #ff7b72;
     --maxw: 1080px;
-    --r: 16px;
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --sans: 'Inter', -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
-    background: var(--bg); color: var(--text);
-    font-family: 'Inter', -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-    line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    background: var(--bg); color: var(--text); font-family: var(--sans);
+    line-height: 1.65; -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    background-image: linear-gradient(var(--border-soft) 1px, transparent 1px), linear-gradient(90deg, var(--border-soft) 1px, transparent 1px);
+    background-size: 44px 44px; background-position: -1px -1px;
   }
-  code, .mono { font-family: 'JetBrains Mono', monospace; }
-  a { color: var(--accent); text-decoration: none; }
+  body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background: radial-gradient(900px 500px at 78% -5%, rgba(63,185,80,.10), transparent 60%),
+                radial-gradient(800px 500px at 0% 8%, rgba(88,166,255,.08), transparent 55%); }
+  .mono { font-family: var(--mono); }
+  a { color: var(--blue); text-decoration: none; }
   a:hover { text-decoration: underline; }
   .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
-  section { padding: 92px 0; position: relative; }
-  .eyebrow { font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
-  h2.title { font-size: clamp(28px, 4vw, 40px); font-weight: 800; line-height: 1.15; letter-spacing: -.02em; }
-  .lead { color: var(--text-dim); font-size: 17px; max-width: 660px; margin-top: 16px; }
+  section { padding: 88px 0; position: relative; }
 
-  .glow { position: fixed; border-radius: 50%; filter: blur(120px); opacity: .22; z-index: -1; pointer-events: none; }
-  .glow.a { top: -120px; left: -100px; width: 480px; height: 480px; background: #6c8cff; }
-  .glow.b { top: 26%; right: -160px; width: 520px; height: 520px; background: #b06cff; opacity: .15; }
-  .glow.c { bottom: -160px; left: 18%; width: 460px; height: 460px; background: #36d6c3; opacity: .11; }
+  /* section comment header */
+  .sec-label { font-family: var(--mono); font-size: 13px; color: var(--faint); margin-bottom: 10px; }
+  .sec-label .s { color: var(--green); }
+  h2.title { font-size: clamp(26px, 3.6vw, 36px); font-weight: 800; letter-spacing: -.02em; line-height: 1.2; }
+  .lead { color: var(--dim); font-size: 16px; max-width: 660px; margin-top: 14px; }
 
-  nav { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(14px); background: rgba(10,11,16,.72); border-bottom: 1px solid var(--border); }
-  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 62px; }
-  .brand { font-weight: 800; letter-spacing: -.01em; display: flex; align-items: center; gap: 10px; }
-  .brand .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--grad); box-shadow: 0 0 14px #6c8cff88; }
-  .navlinks { display: flex; gap: 24px; font-size: 14px; }
-  .navlinks a { color: var(--text-dim); }
-  .navlinks a:hover { color: var(--text); text-decoration: none; }
-  @media (max-width: 760px) { .navlinks { display: none; } }
+  /* nav */
+  nav { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(12px); background: rgba(13,17,23,.8); border-bottom: 1px solid var(--border); }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 58px; }
+  .brand { font-family: var(--mono); font-weight: 700; display: flex; align-items: center; gap: 9px; font-size: 15px; }
+  .brand .prompt { color: var(--green); }
+  .brand .cursor { width: 8px; height: 16px; background: var(--green); display: inline-block; animation: blink 1.1s step-end infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .navlinks { display: flex; gap: 22px; font-family: var(--mono); font-size: 13.5px; }
+  .navlinks a { color: var(--dim); }
+  .navlinks a:hover { color: var(--green); text-decoration: none; }
+  .navlinks a .c { color: var(--faint); }
+  @media (max-width: 800px) { .navlinks { display: none; } }
+
+  /* window chrome */
+  .win { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .win-bar { display: flex; align-items: center; gap: 8px; padding: 11px 14px; background: var(--panel-2); border-bottom: 1px solid var(--border); }
+  .win-bar .dot { width: 11px; height: 11px; border-radius: 50%; }
+  .win-bar .r { background: #ff5f56; } .win-bar .y { background: #ffbd2e; } .win-bar .g { background: #27c93f; }
+  .win-bar .fname { margin-left: 8px; font-family: var(--mono); font-size: 12.5px; color: var(--faint); }
 
   /* hero */
-  .hero { padding: 104px 0 72px; }
-  .hero .badge { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--text-dim); background: var(--bg-card); border: 1px solid var(--border); padding: 7px 14px; border-radius: 999px; margin-bottom: 26px; }
-  .hero .badge .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--good); animation: pulse 2.2s infinite; }
-  @keyframes pulse { 0% { box-shadow: 0 0 0 0 #4ade8077; } 70% { box-shadow: 0 0 0 9px #4ade8000; } 100% { box-shadow: 0 0 0 0 #4ade8000; } }
-  .hero h1 { font-size: clamp(36px, 6.4vw, 66px); font-weight: 900; line-height: 1.07; letter-spacing: -.03em; }
-  .hero h1 .grad { background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-  .hero .role { font-size: clamp(17px, 2.4vw, 22px); font-weight: 700; color: var(--text); margin-top: 18px; }
-  .hero p.sub { color: var(--text-dim); font-size: clamp(15px, 2vw, 18px); margin-top: 16px; max-width: 640px; }
-  .hero .cta { display: flex; gap: 12px; margin-top: 34px; flex-wrap: wrap; }
-  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 12px; font-weight: 600; font-size: 15px; border: 1px solid transparent; cursor: pointer; transition: .18s; }
-  .btn.primary { background: var(--grad); color: #0a0b10; }
-  .btn.primary:hover { transform: translateY(-2px); text-decoration: none; box-shadow: 0 12px 30px -8px #6c8cff88; }
-  .btn.ghost { background: var(--bg-card); border-color: var(--border); color: var(--text); }
-  .btn.ghost:hover { border-color: var(--accent); text-decoration: none; }
+  .hero { padding: 70px 0 60px; }
+  .hero-grid { display: grid; grid-template-columns: 1.45fr .85fr; gap: 36px; align-items: center; }
+  @media (max-width: 860px) { .hero-grid { grid-template-columns: 1fr; gap: 30px; } }
+  .status { font-family: var(--mono); font-size: 13px; color: var(--dim); display: inline-flex; align-items: center; gap: 8px; margin-bottom: 22px; border: 1px solid var(--border); background: var(--panel); padding: 6px 13px; border-radius: 999px; }
+  .status .led { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: pulse 2s infinite; }
+  @keyframes pulse { 50% { opacity: .4; } }
+  .hero h1 { font-size: clamp(34px, 5.4vw, 58px); font-weight: 800; line-height: 1.06; letter-spacing: -.03em; }
+  .hero h1 .accent { color: var(--green); }
+  .hero .tag { font-family: var(--mono); color: var(--dim); font-size: clamp(14px, 1.8vw, 17px); margin-top: 20px; }
+  .hero .tag b { color: var(--text); font-weight: 600; }
+  .hero .subpoints { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .hero .subpoints span { font-family: var(--mono); font-size: 12.5px; color: var(--dim); border: 1px solid var(--border); border-radius: 7px; padding: 5px 10px; background: var(--panel); }
+  .hero .subpoints span b { color: var(--green); font-weight: 700; }
+  .cta { display: flex; gap: 12px; margin-top: 30px; flex-wrap: wrap; }
+  .btn { font-family: var(--mono); display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border-radius: 9px; font-weight: 600; font-size: 14px; border: 1px solid var(--border); cursor: pointer; transition: .16s; }
+  .btn.primary { background: var(--green); color: #06210f; border-color: var(--green); }
+  .btn.primary:hover { background: #4ed164; text-decoration: none; transform: translateY(-2px); }
+  .btn.ghost { background: var(--panel); color: var(--text); }
+  .btn.ghost:hover { border-color: var(--green); color: var(--green); text-decoration: none; }
 
-  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 60px; }
+  /* hero photo card */
+  .photo-card .win-bar { justify-content: flex-start; }
+  .photo-card img { width: 100%; display: block; }
+  .photo-card .cap { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; font-family: var(--mono); font-size: 12px; color: var(--dim); border-top: 1px solid var(--border); }
+  .photo-card .cap .ok { color: var(--green); }
+
+  /* code object block */
+  .codeblock { margin-top: 30px; }
+  .codeblock pre { font-family: var(--mono); font-size: 13.5px; line-height: 1.85; padding: 18px 20px; overflow-x: auto; color: var(--text); }
+  .codeblock .ln { color: var(--faint); user-select: none; display: inline-block; width: 22px; }
+  .k { color: var(--purple); } .v { color: var(--cyan); } .s { color: var(--green); } .p { color: var(--dim); } .fn { color: var(--blue); } .num { color: var(--orange); } .cm { color: var(--faint); }
+
+  /* stats */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 30px; }
   @media (max-width: 760px) { .stats { grid-template-columns: repeat(2, 1fr); } }
-  .stat { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r); padding: 22px; }
-  .stat .num { font-size: 30px; font-weight: 900; letter-spacing: -.02em; background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-  .stat .lbl { color: var(--text-dim); font-size: 13.5px; margin-top: 6px; }
-
-  .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r); padding: 26px; }
+  .stat { background: var(--panel); border: 1px solid var(--border); border-radius: 11px; padding: 18px; }
+  .stat .num { font-family: var(--mono); font-size: 26px; font-weight: 800; color: var(--green); }
+  .stat .lbl { color: var(--dim); font-size: 12.5px; margin-top: 5px; }
 
   /* about */
-  .about-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; margin-top: 44px; }
-  @media (max-width: 820px) { .about-grid { grid-template-columns: 1fr; } }
-  .about-grid p { color: var(--text-dim); font-size: 15.5px; margin-bottom: 14px; }
+  .about-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 24px; margin-top: 40px; align-items: start; }
+  @media (max-width: 860px) { .about-grid { grid-template-columns: 1fr; } }
+  .about-grid p { color: var(--dim); font-size: 15px; margin-bottom: 13px; }
   .about-grid p b { color: var(--text); }
-  .timeline { list-style: none; display: flex; flex-direction: column; gap: 16px; }
-  .timeline li { position: relative; padding-left: 22px; font-size: 14.5px; color: var(--text-dim); }
-  .timeline li::before { content: ""; position: absolute; left: 0; top: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
-  .timeline li b { color: var(--text); display: block; }
-  .timeline .yr { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-faint); }
+  .about-grid .quote { color: var(--green); font-family: var(--mono); font-size: 14px; }
+  .term { padding: 16px 18px; font-family: var(--mono); font-size: 13px; line-height: 1.95; }
+  .term .line .pr { color: var(--green); } .term .line .out { color: var(--dim); } .term .cmd { color: var(--text); }
 
   /* skills */
-  .skill-group { margin-bottom: 22px; }
-  .skill-group .gl { font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 12px; }
-  .stack { display: flex; flex-wrap: wrap; gap: 10px; }
-  .chip { font-size: 13.5px; font-weight: 500; padding: 9px 15px; border-radius: 10px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-dim); transition: .16s; }
-  .chip:hover { border-color: var(--accent); color: var(--text); transform: translateY(-2px); }
-  .chip b { color: var(--text); font-weight: 700; }
+  .skills { margin-top: 38px; display: flex; flex-direction: column; gap: 20px; }
+  .skill-row { }
+  .skill-row .gl { font-family: var(--mono); font-size: 13px; color: var(--orange); margin-bottom: 11px; }
+  .skill-row .gl .h { color: var(--faint); }
+  .stack { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { font-family: var(--mono); font-size: 12.5px; padding: 7px 12px; border-radius: 8px; background: var(--panel); border: 1px solid var(--border); color: var(--dim); transition: .14s; }
+  .chip:hover { border-color: var(--green); color: var(--text); transform: translateY(-2px); }
 
   /* projects */
-  .proj-featured { display: flex; flex-direction: column; gap: 22px; margin-top: 44px; }
-  .pcard { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r); padding: 30px; transition: .2s; position: relative; overflow: hidden; }
-  .pcard::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 4px; background: var(--grad); opacity: .85; }
-  .pcard:hover { border-color: #2f3650; transform: translateY(-3px); }
-  .pcard .phead { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-  .pcard h3 { font-size: 23px; font-weight: 800; letter-spacing: -.01em; }
-  .pcard .meta { font-size: 13px; color: var(--text-faint); font-family: 'JetBrains Mono', monospace; margin-top: 6px; }
-  .pcard .role-tag { font-size: 12px; font-weight: 700; padding: 5px 11px; border-radius: 999px; background: #6c8cff18; color: var(--accent); border: 1px solid #6c8cff33; white-space: nowrap; }
-  .pcard .role-tag.lead { background: #b06cff18; color: var(--accent-2); border-color: #b06cff33; }
-  .pcard .oneline { color: var(--text); font-size: 16px; margin: 14px 0 16px; font-weight: 500; }
-  .pcard ul.pbul { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-bottom: 18px; }
-  .pcard ul.pbul li { color: var(--text-dim); font-size: 14.5px; padding-left: 20px; position: relative; }
-  .pcard ul.pbul li::before { content: ""; position: absolute; left: 0; top: 9px; width: 6px; height: 6px; border-radius: 2px; background: var(--accent-3); }
-  .pcard ul.pbul li b { color: var(--text); }
-  .ptech { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 6px; }
-  .ptech span { font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--text-dim); background: var(--bg-soft); border: 1px solid var(--border); padding: 4px 9px; border-radius: 7px; }
-  .pcard .plinks { display: flex; gap: 16px; margin-top: 16px; font-size: 14px; font-weight: 600; }
-  .metric-row { display: flex; gap: 26px; flex-wrap: wrap; margin: 4px 0 18px; }
-  .metric { }
-  .metric .mv { font-size: 24px; font-weight: 900; background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.1; }
-  .metric .ml { font-size: 12.5px; color: var(--text-faint); margin-top: 2px; }
+  .featured { display: flex; flex-direction: column; gap: 18px; margin-top: 40px; }
+  .pcard { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: .18s; }
+  .pcard:hover { border-color: #3d4756; transform: translateY(-3px); }
+  .pcard .win-bar .fname { color: var(--dim); }
+  .pcard .role { margin-left: auto; font-family: var(--mono); font-size: 11.5px; font-weight: 700; padding: 3px 9px; border-radius: 6px; }
+  .pcard .role.lead { color: var(--green); background: rgba(63,185,80,.12); border: 1px solid rgba(63,185,80,.3); }
+  .pcard .role.sub { color: var(--blue); background: rgba(88,166,255,.12); border: 1px solid rgba(88,166,255,.3); }
+  .pcard .body { padding: 24px; }
+  .pcard h3 { font-size: 21px; font-weight: 800; letter-spacing: -.01em; }
+  .pcard .meta { font-family: var(--mono); font-size: 12px; color: var(--faint); margin-top: 5px; }
+  .pcard .oneline { color: var(--text); font-size: 15px; margin: 13px 0 14px; }
+  .pcard ul { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .pcard ul li { color: var(--dim); font-size: 14px; padding-left: 18px; position: relative; }
+  .pcard ul li::before { content: "▹"; position: absolute; left: 0; color: var(--green); }
+  .pcard ul li b { color: var(--text); }
+  .ptech { display: flex; flex-wrap: wrap; gap: 6px; }
+  .ptech span { font-family: var(--mono); font-size: 11.5px; color: var(--cyan); background: var(--bg); border: 1px solid var(--border); padding: 4px 8px; border-radius: 6px; }
+  .plinks { display: flex; gap: 16px; margin-top: 15px; font-family: var(--mono); font-size: 13px; font-weight: 600; }
+  .metric-row { display: flex; gap: 24px; flex-wrap: wrap; margin: 2px 0 16px; }
+  .metric .mv { font-family: var(--mono); font-size: 21px; font-weight: 800; color: var(--green); }
+  .metric .ml { font-size: 12px; color: var(--faint); }
 
-  .proj-more { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 22px; }
-  @media (max-width: 880px) { .proj-more { grid-template-columns: 1fr; } }
-  .mini { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 22px; transition: .18s; display: flex; flex-direction: column; }
-  .mini:hover { border-color: #2f3650; transform: translateY(-3px); }
-  .mini h4 { font-size: 17px; font-weight: 700; }
-  .mini .meta { font-size: 12px; color: var(--text-faint); font-family: 'JetBrains Mono', monospace; margin: 5px 0 12px; }
-  .mini p { color: var(--text-dim); font-size: 14px; flex: 1; }
-  .mini .bigm { font-size: 13px; font-weight: 700; color: var(--accent-3); margin: 12px 0 10px; }
-  .mini .ptech { margin-bottom: 0; }
-  .mini .plinks { margin-top: 14px; font-size: 13.5px; font-weight: 600; }
+  .more { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+  @media (max-width: 760px) { .more { grid-template-columns: 1fr; } }
+  .mini { background: var(--panel); border: 1px solid var(--border); border-radius: 11px; padding: 20px; transition: .16s; }
+  .mini:hover { border-color: #3d4756; transform: translateY(-3px); }
+  .mini h4 { font-family: var(--mono); font-size: 16px; font-weight: 700; }
+  .mini .meta { font-family: var(--mono); font-size: 11.5px; color: var(--faint); margin: 4px 0 10px; }
+  .mini p { color: var(--dim); font-size: 13.5px; }
+  .mini .bigm { font-family: var(--mono); font-size: 12.5px; font-weight: 700; color: var(--orange); margin: 11px 0 9px; }
 
   /* contact */
-  .contact { text-align: center; }
-  .contact .lead { margin: 16px auto 0; }
-  .contact-links { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 34px; }
-  .clink { display: inline-flex; align-items: center; gap: 9px; padding: 14px 22px; border-radius: 12px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text); font-weight: 600; font-size: 15px; transition: .18s; }
-  .clink:hover { border-color: var(--accent); transform: translateY(-2px); text-decoration: none; }
-  .clink .k { color: var(--text-faint); font-size: 13px; font-weight: 500; }
+  .contact-term { margin-top: 36px; }
+  .contact-term .term { font-size: 13.5px; line-height: 2.1; }
+  .contact-term a { color: var(--blue); }
+  .contact-term .pr { color: var(--green); }
+  .contact-term .cm { color: var(--faint); }
 
-  footer { border-top: 1px solid var(--border); padding: 40px 0; text-align: center; }
-  footer .copy { color: var(--text-faint); font-size: 13px; }
+  footer { border-top: 1px solid var(--border); padding: 34px 0; }
+  footer .wrap { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  footer .copy { font-family: var(--mono); color: var(--faint); font-size: 12.5px; }
 
-  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
   .reveal.in { opacity: 1; transform: none; }
 </style>
 </head>
 <body>
-<div class="glow a"></div>
-<div class="glow b"></div>
-<div class="glow c"></div>
 
 <nav>
   <div class="wrap">
-    <div class="brand"><span class="dot"></span> 이훤<span style="color:var(--text-faint);font-weight:500;"> · AI Engineer</span></div>
+    <div class="brand"><span class="prompt">~/</span>이훤<span class="cursor"></span></div>
     <div class="navlinks">
-      <a href="#about">소개</a>
-      <a href="#skills">기술 스택</a>
-      <a href="#projects">프로젝트</a>
-      <a href="#contact">연락처</a>
+      <a href="#about"><span class="c">//</span> about</a>
+      <a href="#skills"><span class="c">//</span> skills</a>
+      <a href="#projects"><span class="c">//</span> projects</a>
+      <a href="#contact"><span class="c">//</span> contact</a>
     </div>
   </div>
 </nav>
@@ -167,24 +194,48 @@
 <!-- HERO -->
 <header class="hero">
   <div class="wrap">
-    <div class="badge"><span class="pulse"></span> 신입 AI 엔지니어 · 채용 중</div>
-    <h1>문제를 <span class="grad">AI로 풀고</span><br>수치로 증명하는 개발자</h1>
-    <div class="role">이훤 · AI 기반 서비스 개발자</div>
-    <p class="sub">
-      RAG · LLM · Computer Vision 기반의 풀스택 AI 프로젝트를 기획부터 모델링, 백엔드, 배포까지 직접 만들어 왔습니다.
-      논문을 읽고 실제 시스템에 적용해 <b>성능을 수치로 끌어올리는 것</b>에 집중합니다.
-    </p>
-    <div class="cta">
-      <a class="btn primary" href="#projects">프로젝트 보기 ↓</a>
-      <a class="btn ghost" href="https://github.com/LeeHwon0217" target="_blank" rel="noopener">GitHub</a>
-      <a class="btn ghost" href="mailto:wob0217@gmail.com">이메일 보내기</a>
+    <div class="hero-grid">
+      <div>
+        <div class="status"><span class="led"></span> available for hire · 신입 AI 엔지니어</div>
+        <h1>안녕하세요,<br><span class="accent">AI 엔지니어</span> 이훤입니다.</h1>
+        <p class="tag">멀티모달 <b>RAG</b>와 <b>LangGraph 에이전트</b>를 풀스택으로 구현합니다.</p>
+        <div class="subpoints">
+          <span><b>논문 공저</b> Zenodo · 2저자</span>
+          <span><b>AI 논문 강의</b></span>
+          <span><b>풀스택</b></span>
+          <span><b>PM</b> 팀장·부팀장</span>
+        </div>
+        <div class="cta">
+          <a class="btn primary" href="#projects">$ ls projects/</a>
+          <a class="btn ghost" href="https://github.com/LeeHwon0217" target="_blank" rel="noopener">↗ github</a>
+          <a class="btn ghost" href="mailto:wob0217@gmail.com">✉ email</a>
+        </div>
+      </div>
+
+      <div class="win photo-card reveal">
+        <div class="win-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">profile.jpg</span></div>
+        <img src="assets/profile.jpg" alt="이훤 프로필 사진">
+        <div class="cap"><span>이훤 · Hwon Lee</span><span class="ok">● open to work</span></div>
+      </div>
+    </div>
+
+    <div class="win codeblock reveal">
+      <div class="win-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">developer.ts</span></div>
+<pre><span class="ln">1</span><span class="k">const</span> <span class="v">developer</span> <span class="p">= {</span>
+<span class="ln">2</span>  <span class="fn">name</span><span class="p">:</span> <span class="s">"이훤 (Hwon Lee)"</span><span class="p">,</span>
+<span class="ln">3</span>  <span class="fn">role</span><span class="p">:</span> <span class="s">"AI Engineer"</span><span class="p">,</span>
+<span class="ln">4</span>  <span class="fn">focus</span><span class="p">: [</span><span class="s">"RAG"</span><span class="p">,</span> <span class="s">"LangGraph"</span><span class="p">,</span> <span class="s">"Multimodal"</span><span class="p">],</span>
+<span class="ln">5</span>  <span class="fn">paper</span><span class="p">:</span> <span class="s">"Tri-CHEF · Zenodo (2nd author)"</span><span class="p">,</span>
+<span class="ln">6</span>  <span class="fn">projects</span><span class="p">:</span> <span class="num">5</span><span class="p">,</span> <span class="cm">// 기획 → 풀스택 → 배포</span>
+<span class="ln">7</span>  <span class="fn">motto</span><span class="p">:</span> <span class="s">"복잡한 AI를 누구나 쓰게"</span><span class="p">,</span>
+<span class="ln">8</span><span class="p">};</span></pre>
     </div>
 
     <div class="stats">
-      <div class="stat reveal"><div class="num" data-count="5" data-suffix="">5</div><div class="lbl">완성한 AI 풀스택 프로젝트</div></div>
-      <div class="stat reveal"><div class="num" data-count="99.1" data-suffix="%p">99.1%p</div><div class="lbl">추천 충돌률 개선 (KMDb)</div></div>
-      <div class="stat reveal"><div class="num" data-count="90.0" data-suffix="%">90.0%</div><div class="lbl">멀티모달 검색 신뢰도 (DB_insight)</div></div>
-      <div class="stat reveal"><div class="num" data-count="4" data-suffix="">4</div><div class="lbl">마이크로서비스 AWS 배포 (아이마음)</div></div>
+      <div class="stat reveal"><div class="num" data-count="5" data-suffix="">5</div><div class="lbl">완성한 풀스택 AI 프로젝트</div></div>
+      <div class="stat reveal"><div class="num" data-count="2000" data-suffix="h">2000h</div><div class="lbl">AI 부트캠프 (945h + 1115h)</div></div>
+      <div class="stat reveal"><div class="num" data-count="1" data-suffix="편">1편</div><div class="lbl">공저 논문 (Zenodo, 2저자)</div></div>
+      <div class="stat reveal"><div class="num" data-count="27.5" data-suffix="x">27.5x</div><div class="lbl">검색 변별력 향상 (단일 모델 대비)</div></div>
     </div>
   </div>
 </header>
@@ -192,84 +243,68 @@
 <!-- ABOUT -->
 <section id="about">
   <div class="wrap">
-    <div class="eyebrow reveal">소개</div>
-    <h2 class="title reveal">요식업 8년에서 AI 개발자로</h2>
+    <div class="sec-label reveal"><span class="s">//</span> 01 · about</div>
+    <h2 class="title reveal">복잡한 AI를, 누구나 쓸 수 있게</h2>
     <div class="about-grid">
       <div class="reveal">
-        <p>전국 직영점 신입사원 필기시험 1위로 시작해 8년간 요식업 현장에서 <b>교육·운영·문제 해결</b>을 맡았습니다. 사람의 문제를 빠르게 파악하고 구조를 만들어 해결하는 일이 즐거웠고, 그 방식을 기술로 확장하고 싶어 AI 개발로 전환했습니다.</p>
-        <p>코리아 IT 아카데미에서 <b>웹 풀스택 · 머신러닝 · 딥러닝 · LLM/RAG · 컴퓨터비전</b>을 단계적으로 학습하고, 5개의 실전 AI 프로젝트를 직접 완성했습니다. 한 프로젝트에서는 팀장으로 4개 마이크로서비스를 AWS에 배포했습니다.</p>
-        <p>가장 좋아하는 작업 방식은 <b>"논문을 읽고 → 실제 시스템에 적용하고 → 수치로 결과를 증명"</b>하는 것입니다. 추천 시스템 충돌률을 99.99%에서 0.88%로, 영상 검색 신뢰도를 90%까지 끌어올린 경험이 그 증거입니다.</p>
+        <p class="quote">// "AI를 만드는 사람"을 넘어 "AI를 쓰게 만드는 사람"</p>
+        <p>AI를 깊이 연구하는 일과, 그 결과를 누구나 쓰는 제품으로 만드는 일을 함께 해 왔습니다. 3개 모델로 임베딩한 결과를 독립된 축으로 결합해 올바른 파일을 가려내는 <b>변별력을 단일 모델 대비 27.5배</b>로 높인 멀티모달 검색 기법을 논문으로 공저(2저자)했고, 그 검색 엔진 위에 로컬 RAG 응답 시스템 <b>AIMODE</b>를 직접 만들었습니다.</p>
+        <p>무엇을 만들든 <b>"전문 지식이 없는 사람도 이걸 쓸 수 있는가?"</b>를 첫 기준으로 삼습니다. 어릴 때 국제 로봇 올림피아드·NXT 대회에 출전하고 컴퓨터박물관 도슨트로 활동했지만, 집안 사정으로 학업을 멈추고 수년간 생계를 책임진 뒤 다시 이 길로 돌아왔습니다.</p>
+        <p>복귀를 위해 <b>2,000시간(945h + 1,115h, 13개월)</b>의 부트캠프를 거쳤습니다. 첫 과정에서 진도를 따라가지 못해 뒤처진 경험 때문에, 두 번째 과정에서는 반장을 맡아 매주 일요일 논문·최신 AI를 직접 정리해 강의했고 <b>한 명의 낙오자도 없이</b> 모두가 수료했습니다.</p>
       </div>
-      <div class="card reveal">
-        <ul class="timeline">
-          <li><span class="yr">2025.03 ~ 2026.05</span><b>코리아 IT 아카데미 강남</b>AI 활용 응용SW 개발 + 영상객체탐지 플랫폼 (총 2,060시간)</li>
-          <li><span class="yr">2025.05 ~</span><b>숭실대 컴퓨터공학과</b>평생교육원 수강 중</li>
-          <li><span class="yr">2020.12 ~ 2024.03</span><b>요식업 (라무진 · 월화식당 등)</b>신입 교육 · 조리 · 운영</li>
-          <li><span class="yr">2019.03 ~ 2020.10</span><b>육군 병장 만기제대</b></li>
-        </ul>
+      <div class="win reveal">
+        <div class="win-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">whoami.sh</span></div>
+        <div class="term">
+          <div class="line"><span class="pr">$</span> <span class="cmd">whoami</span></div>
+          <div class="line"><span class="out">이훤 · 1998 · 서울</span></div>
+          <div class="line" style="margin-top:8px;"><span class="pr">$</span> <span class="cmd">cat education.txt</span></div>
+          <div class="line"><span class="out">코리아 IT 아카데미 (KDT)</span></div>
+          <div class="line"><span class="out">└ AI 응용SW 945h</span></div>
+          <div class="line"><span class="out">└ 영상객체탐지 1115h</span></div>
+          <div class="line"><span class="out">숭실대 컴공 (평생교육원)</span></div>
+          <div class="line" style="margin-top:8px;"><span class="pr">$</span> <span class="cmd">cat roles.txt</span></div>
+          <div class="line"><span class="out">팀장 ×2 · 부팀장 ×1</span></div>
+          <div class="line"><span class="out">반장 · 사내 AI 강의</span></div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- SKILLS -->
-<section id="skills" style="background:var(--bg-soft);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+<section id="skills">
   <div class="wrap">
-    <div class="eyebrow reveal">기술 스택</div>
-    <h2 class="title reveal">다룰 수 있는 도구들</h2>
-    <div style="margin-top:44px;">
-      <div class="skill-group reveal">
-        <div class="gl">LLM / RAG</div>
+    <div class="sec-label reveal"><span class="s">//</span> 02 · skills</div>
+    <h2 class="title reveal">기술 스택</h2>
+    <div class="skills">
+      <div class="skill-row reveal">
+        <div class="gl"><span class="h">import</span> llm_rag_agent</div>
         <div class="stack">
-          <div class="chip"><b>LangChain</b></div>
-          <div class="chip"><b>ChromaDB</b> Vector DB</div>
-          <div class="chip"><b>RAG</b> 파이프라인</div>
-          <div class="chip"><b>OpenAI API</b></div>
-          <div class="chip"><b>Google Gemini</b></div>
-          <div class="chip"><b>HuggingFace</b></div>
-          <div class="chip">Prompt Engineering</div>
+          <div class="chip">LangChain</div><div class="chip">LangGraph</div><div class="chip">RAG</div><div class="chip">Ollama</div><div class="chip">HuggingFace</div><div class="chip">OpenAI / Gemini</div><div class="chip">ChromaDB</div><div class="chip">Prompt Engineering</div>
         </div>
       </div>
-      <div class="skill-group reveal">
-        <div class="gl">Computer Vision</div>
+      <div class="skill-row reveal">
+        <div class="gl"><span class="h">import</span> computer_vision</div>
         <div class="stack">
-          <div class="chip"><b>YOLOv8</b> Segmentation</div>
-          <div class="chip"><b>MediaPipe</b> Pose</div>
-          <div class="chip"><b>CLIP</b></div>
-          <div class="chip"><b>VARCO-VISION</b> OCR</div>
-          <div class="chip"><b>OpenCV</b></div>
+          <div class="chip">YOLOv8</div><div class="chip">MediaPipe</div><div class="chip">SigLIP2</div><div class="chip">DINOv2</div><div class="chip">OpenCV</div><div class="chip">VARCO / Qwen OCR</div><div class="chip">Whisper</div>
         </div>
       </div>
-      <div class="skill-group reveal">
-        <div class="gl">ML / DL</div>
+      <div class="skill-row reveal">
+        <div class="gl"><span class="h">import</span> ml_dl</div>
         <div class="stack">
-          <div class="chip"><b>PyTorch</b></div>
-          <div class="chip"><b>RQ-VAE</b></div>
-          <div class="chip"><b>XGBoost</b></div>
-          <div class="chip"><b>scikit-learn</b></div>
-          <div class="chip">Transformer</div>
-          <div class="chip">강화학습</div>
-          <div class="chip">faster-whisper</div>
+          <div class="chip">PyTorch</div><div class="chip">TensorFlow</div><div class="chip">RQ-VAE</div><div class="chip">XGBoost</div><div class="chip">scikit-learn</div><div class="chip">Reinforcement Learning</div>
         </div>
       </div>
-      <div class="skill-group reveal">
-        <div class="gl">Backend & Infra</div>
+      <div class="skill-row reveal">
+        <div class="gl"><span class="h">import</span> backend</div>
         <div class="stack">
-          <div class="chip"><b>FastAPI</b></div>
-          <div class="chip"><b>Express.js</b> · Node.js</div>
-          <div class="chip"><b>MySQL</b> · MongoDB</div>
-          <div class="chip">JWT · OAuth</div>
-          <div class="chip"><b>Docker</b> Compose</div>
-          <div class="chip"><b>AWS</b> EC2 · S3</div>
+          <div class="chip">FastAPI</div><div class="chip">Flask</div><div class="chip">Express / Node</div><div class="chip">Spring Boot</div><div class="chip">MySQL</div><div class="chip">MongoDB</div><div class="chip">SQLite</div>
         </div>
       </div>
-      <div class="skill-group reveal">
-        <div class="gl">Frontend</div>
+      <div class="skill-row reveal">
+        <div class="gl"><span class="h">import</span> frontend_infra</div>
         <div class="stack">
-          <div class="chip"><b>Next.js</b> · React</div>
-          <div class="chip"><b>TypeScript</b></div>
-          <div class="chip">Tailwind CSS</div>
-          <div class="chip">Recharts</div>
+          <div class="chip">Next.js / React</div><div class="chip">TypeScript</div><div class="chip">Electron</div><div class="chip">Tailwind CSS</div><div class="chip">Docker</div><div class="chip">AWS (EC2/S3)</div><div class="chip">Git / Jira</div>
         </div>
       </div>
     </div>
@@ -279,118 +314,116 @@
 <!-- PROJECTS -->
 <section id="projects">
   <div class="wrap">
-    <div class="eyebrow reveal">대표 프로젝트</div>
+    <div class="sec-label reveal"><span class="s">//</span> 03 · projects</div>
     <h2 class="title reveal">기획부터 배포까지 직접 만든 것들</h2>
 
-    <div class="proj-featured">
+    <div class="featured">
       <!-- 아이마음 -->
       <article class="pcard reveal">
-        <div class="phead">
-          <div>
-            <h3>아이마음 (AiMind)</h3>
-            <div class="meta">2026.01 – 02 · 아동 HTP 그림 심리 분석 플랫폼</div>
-          </div>
-          <span class="role-tag lead">팀장</span>
-        </div>
-        <p class="oneline">부모가 아이의 그림을 올리면 AI가 심리 발달 상태를 해석해 리포트로 돌려주는 서비스.</p>
-        <ul class="pbul">
-          <li><b>YOLOv8 Instance Segmentation</b>으로 나무·집·사람 그림 요소 감지(최대 18클래스). 심리검사 특성상 누락이 곧 오판이라 confidence를 0.15로 낮춰 민감도를 높였습니다.</li>
-          <li><b>HTP 논문 4편을 RAG(LangChain + ChromaDB)</b>로 구축하고 Gemini 2.5로 T-Score·발달단계 해석 리포트를 생성했습니다.</li>
-          <li><b>VARCO-VISION VLM OCR</b>로 그림일기 손글씨를 인식, NF4 4-bit 양자화로 VRAM을 <b>6.8GB → 0.9GB</b>로 절감했습니다.</li>
-          <li>Frontend · Backend · AI · OCR <b>4개 마이크로서비스를 Docker화</b>하고, AWS EC2 CPU/GPU를 분리 배포해 GPU 비용을 최소화했습니다.</li>
-        </ul>
-        <div class="ptech">
-          <span>YOLOv8</span><span>Gemini 2.5</span><span>LangChain</span><span>ChromaDB</span><span>VARCO-VISION</span><span>FastAPI</span><span>Next.js</span><span>AWS EC2</span><span>Docker</span>
-        </div>
-        <div class="plinks">
-          <a href="https://github.com/Oneness-TheOne" target="_blank" rel="noopener">GitHub (Oneness-TheOne) ↗</a>
+        <div class="win-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">aimind/</span><span class="role lead">팀장</span></div>
+        <div class="body">
+          <h3>아이마음 (AiMind)</h3>
+          <div class="meta">2025.02–03 · 기획 / 풀스택 / 아키텍처 / E2E 파이프라인</div>
+          <p class="oneline">부모가 아이의 그림(HTP)을 올리면 AI가 전문가 수준의 심리 발달 리포트를 만들어주는 서비스.</p>
+          <ul>
+            <li><b>YOLOv8</b>로 나무·집·사람 그림 요소를 탐지하고, 청크 문제는 <b>Gemini API로 요소-설명 JSON</b>을 만들어 해결했습니다.</li>
+            <li>후속 질문용 <b>LangGraph 챗봇</b>과 그림일기 손글씨 인식용 <b>VARCO VLM OCR</b>을 붙였습니다.</li>
+            <li>Frontend·Backend·AI·OCR <b>4개 마이크로서비스를 Docker화</b>해 AWS EC2(CPU/GPU 분리)에 배포했습니다.</li>
+          </ul>
+          <div class="ptech"><span>YOLOv8</span><span>Gemini</span><span>LangGraph</span><span>VARCO-VISION</span><span>FastAPI</span><span>Next.js</span><span>AWS</span><span>Docker</span></div>
+          <div class="plinks"><a href="https://github.com/Oneness-TheOne" target="_blank" rel="noopener">↗ github</a></div>
         </div>
       </article>
 
       <!-- DB_insight -->
       <article class="pcard reveal">
-        <div class="phead">
-          <div>
-            <h3>DB_insight · 멀티모달 영상 의미 검색</h3>
-            <div class="meta">2026.04 · 개인 프로젝트</div>
+        <div class="win-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">db_insight/</span><span class="role sub">부팀장 · 2저자</span></div>
+        <div class="body">
+          <h3>DB_Insight · Tri-CHEF</h3>
+          <div class="meta">2025.04–05 · 기획 / 풀스택 / 앱 / 랭그래프 / 논문 공저</div>
+          <p class="oneline">파일명을 몰라도 "내용"으로 찾고, 로컬 문서를 근거로 답까지 만들어주는 RAG 데스크탑 앱.</p>
+          <div class="metric-row">
+            <div class="metric"><div class="mv">27.5x</div><div class="ml">검색 변별력 (단일 모델 대비)</div></div>
+            <div class="metric"><div class="mv">60→93%</div><div class="ml">Top-1 신뢰도 (1축→3축 결합)</div></div>
           </div>
-          <span class="role-tag">개인</span>
+          <ul>
+            <li>팀이 <b>Zenodo에 공개한 Tri-CHEF 논문</b>의 3축 임베딩(SigLIP2·BGE-M3·DINOv2 복소 결합)으로 검색 정확도를 끌어올렸습니다. (저는 <b>2저자</b>)</li>
+            <li>스캔 후 <b>전후 420자 자르기</b>로 청크 문제를 해결하고, '검색 → 스캔 → 선택 → 답변 작성'의 <b>LangGraph 에이전트(AIMODE)</b>를 직접 개발했습니다.</li>
+            <li>환각 차단(신뢰도 게이트)과 <b>Ollama 로컬 LLM</b>으로 데이터 외부 유출 0 — 출처 페이지까지 표시합니다.</li>
+          </ul>
+          <div class="ptech"><span>SigLIP2</span><span>BGE-M3</span><span>DINOv2</span><span>Complex-Hermitian</span><span>LangGraph</span><span>Ollama</span><span>ChromaDB</span><span>Electron</span></div>
+          <div class="plinks"><a href="projects/db-insight.html">→ 자세히 보기</a><a href="https://github.com/KDT-Chainers/DB_insight" target="_blank" rel="noopener">↗ github</a><a href="https://zenodo.org/records/20046344" target="_blank" rel="noopener">↗ 논문</a></div>
         </div>
-        <p class="oneline">영상을 직접 열어보지 않고도 텍스트 쿼리로 원하는 내용이 담긴 영상을 찾아내는 검색 엔진.</p>
-        <ul class="pbul">
-          <li>한국어 영상 60편을 <b>CLIP 키프레임(시각) + Whisper STT(음성)</b>로 융합 임베딩해, 화면과 발화 내용을 함께 검색합니다.</li>
-          <li><b>10가지 임베딩 방법을 직접 설계·비교</b>해 k-NN LOO 신뢰도 <b>90.0%</b>를 달성하고, 가중치 스윕으로 시각40:음성60 최적 비율을 도출했습니다.</li>
-          <li>ko-sroberta 문장 단위 멀티벡터 + 쿼리 확장으로 "12월즈음" 같은 짧은 단서도 관련 문장을 직접 히트(유사도 0.737)시켰습니다.</li>
-          <li>Flask 검색 서버 + 코사인/유클리드 하이브리드 스코어 + 3D Plotly 시각화까지 구현했습니다.</li>
-        </ul>
-        <div class="ptech">
-          <span>CLIP</span><span>faster-whisper</span><span>ko-sroberta</span><span>konlpy</span><span>Flask</span><span>Plotly</span><span>scikit-learn</span>
-        </div>
-        <div class="plinks">
-          <a href="projects/db-insight.html">자세히 보기 →</a>
-          <a href="https://github.com/LeeHwon0217" target="_blank" rel="noopener">GitHub ↗</a>
+      </article>
+
+      <!-- 유지프로젝트 -->
+      <article class="pcard reveal">
+        <div class="win-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">yuzy/</span><span class="role lead">팀장</span></div>
+        <div class="body">
+          <h3>유지프로젝트 (YUZY)</h3>
+          <div class="meta">2025.12–2026.01 · 기획 / 풀스택 / 아키텍처 / E2E 파이프라인</div>
+          <p class="oneline">빠른 진도를 따라가기 힘든 국비 학생을 위한 코드 학습 지원 플랫폼.</p>
+          <ul>
+            <li>드래그-클립보드 <b>원스탑 OCR</b> — 좌표는 <b>Tesseract</b>, 글자는 <b>WinRT</b>로 잡아 혼용해 코드 인식률을 높였습니다.</li>
+            <li><b>Qwen2.5-Coder</b>로 코드 폴더의 함수 간 연결성을 분석해 다이어그램으로 시각화했습니다.</li>
+            <li>원생끼리 묻고 답하는 커뮤니티 게시판까지 풀스택으로 구현했습니다.</li>
+          </ul>
+          <div class="ptech"><span>Qwen2.5-Coder</span><span>Tesseract</span><span>WinRT OCR</span><span>FastAPI</span><span>Next.js</span><span>Express</span></div>
+          <div class="plinks"><a href="https://github.com/ANGELS-JustDoIt" target="_blank" rel="noopener">↗ github</a></div>
         </div>
       </article>
     </div>
 
-    <h3 style="font-size:15px;font-weight:700;color:var(--text-faint);letter-spacing:.06em;text-transform:uppercase;margin-top:46px;" class="reveal">더 많은 프로젝트</h3>
-
-    <div class="proj-more">
-      <!-- KMDb -->
+    <div class="more">
       <div class="mini reveal">
         <h4>KMDb 영화 추천</h4>
-        <div class="meta">2026.03 · 1인 기여</div>
-        <p>TIGER 논문 기반 생성형 추천 시스템. RQ-VAE로 Semantic ID를 만들고 Prefix Constrained Decoding으로 환각을 차단했습니다.</p>
-        <div class="bigm">코드북 충돌률 99.99% → 0.88% · 환각 100% 차단</div>
-        <div class="ptech"><span>PyTorch</span><span>RQ-VAE</span><span>T5</span><span>FastAPI</span><span>Next.js</span></div>
+        <div class="meta">생성형 추천 · 1인 기여</div>
+        <p>TIGER 논문 기반 생성형 추천. RQ-VAE로 Semantic ID를 만들고 Prefix Constrained Decoding으로 환각을 막았습니다.</p>
+        <div class="bigm">// 코드북 충돌 99.99% → 0.88% · 환각 100% 차단</div>
+        <div class="ptech"><span>PyTorch</span><span>RQ-VAE</span><span>T5</span><span>FastAPI</span></div>
       </div>
-
-      <!-- 국민체력지키미 -->
       <div class="mini reveal">
         <h4>국민체력지키미</h4>
-        <div class="meta">2025.11 – 12 · 공공데이터 경진대회</div>
-        <p>MediaPipe Pose로 33개 관절을 실시간 추적해 운동 자세 정확도를 피드백하고, XGBoost로 연령대별 운동을 처방하는 헬스케어 플랫폼.</p>
-        <div class="bigm">실시간 30FPS · 관절 각도 기반 자세 분석</div>
-        <div class="ptech"><span>MediaPipe</span><span>XGBoost</span><span>GPT-4o-mini</span><span>React</span><span>Express</span></div>
-      </div>
-
-      <!-- 유지프로젝트 -->
-      <div class="mini reveal">
-        <h4>유지프로젝트 (YUZY)</h4>
-        <div class="meta">2025.12 – 2026.01 · 팀</div>
-        <p>국비 수업생을 위한 코드 학습 지원 플랫폼. 화면 캡처 + OCR로 코드를 추출하고, LLM이 함수 호출 흐름을 분석해 다이어그램으로 시각화합니다.</p>
-        <div class="bigm">OCR 코드 추출 + LLM 코드 흐름 시각화</div>
-        <div class="ptech"><span>Qwen2.5-Coder</span><span>Tesseract</span><span>WinRT OCR</span><span>Next.js</span><span>Express</span></div>
+        <div class="meta">공공데이터 경진대회 출품</div>
+        <p>MediaPipe Pose로 33개 관절을 실시간 추적해 운동 자세 정확도를 피드백하고, XGBoost로 연령대별 운동을 처방합니다.</p>
+        <div class="bigm">// 실시간 30FPS · 관절 각도 기반 자세 분석</div>
+        <div class="ptech"><span>MediaPipe</span><span>XGBoost</span><span>GPT-4o-mini</span><span>React</span></div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- CONTACT -->
-<section id="contact" class="contact" style="background:var(--bg-soft);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+<section id="contact">
   <div class="wrap">
-    <div class="eyebrow reveal" style="text-align:center;">연락처</div>
+    <div class="sec-label reveal"><span class="s">//</span> 04 · contact</div>
     <h2 class="title reveal">함께 문제를 풀고 싶습니다</h2>
-    <p class="lead reveal">AI 엔지니어 포지션에 지원하고 있습니다. 편하게 연락 주세요.</p>
-    <div class="contact-links reveal">
-      <a class="clink" href="mailto:wob0217@gmail.com"><span class="k">Email</span> wob0217@gmail.com</a>
-      <a class="clink" href="https://github.com/LeeHwon0217" target="_blank" rel="noopener"><span class="k">GitHub</span> LeeHwon0217</a>
-      <a class="clink" href="https://hubo0217.tistory.com" target="_blank" rel="noopener"><span class="k">Blog</span> Tistory</a>
-      <a class="clink" href="https://www.notion.so/206469eee4b580e7b869d40eab357883" target="_blank" rel="noopener"><span class="k">Notion</span> 포트폴리오</a>
+    <div class="win contact-term reveal">
+      <div class="win-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="fname">contact.sh</span></div>
+      <div class="term">
+        <div><span class="pr">$</span> <span class="cmd">cat contact.json</span></div>
+        <div><span class="cm">{</span></div>
+        <div>&nbsp;&nbsp;<span class="fn" style="color:var(--blue)">"email"</span><span class="cm">:</span> <a href="mailto:wob0217@gmail.com">"wob0217@gmail.com"</a><span class="cm">,</span></div>
+        <div>&nbsp;&nbsp;<span class="fn" style="color:var(--blue)">"github"</span><span class="cm">:</span> <a href="https://github.com/LeeHwon0217" target="_blank" rel="noopener">"github.com/LeeHwon0217"</a><span class="cm">,</span></div>
+        <div>&nbsp;&nbsp;<span class="fn" style="color:var(--blue)">"blog"</span><span class="cm">:</span> <a href="https://hubo0217.tistory.com" target="_blank" rel="noopener">"hubo0217.tistory.com"</a><span class="cm">,</span></div>
+        <div>&nbsp;&nbsp;<span class="fn" style="color:var(--blue)">"notion"</span><span class="cm">:</span> <a href="https://www.notion.so/206469eee4b580e7b869d40eab357883" target="_blank" rel="noopener">"notion portfolio"</a></div>
+        <div><span class="cm">}</span></div>
+      </div>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <div class="copy">© 2026 이훤 · AI 기반 서비스 개발자 포트폴리오</div>
+    <div class="copy">© 2026 이훤 · Hwon Lee</div>
+    <div class="copy">built with vanilla html · css</div>
   </div>
 </footer>
 
 <script>
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, { threshold: 0.12 });
+  }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
   const countIO = new IntersectionObserver((entries) => {
@@ -400,7 +433,7 @@
       const target = parseFloat(el.dataset.count);
       const suffix = el.dataset.suffix || '';
       const isFloat = el.dataset.count.includes('.');
-      const dur = 1300; const t0 = performance.now();
+      const dur = 1200; const t0 = performance.now();
       function tick(now) {
         const p = Math.min((now - t0) / dur, 1);
         const eased = 1 - Math.pow(1 - p, 3);
