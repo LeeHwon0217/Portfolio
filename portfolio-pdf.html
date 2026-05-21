@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>이훤 · AI Engineer — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #14161c;
+    --body: #3a3f4b;
+    --dim: #5b616e;
+    --faint: #8a909e;
+    --line: #e6e8ee;
+    --line-soft: #f0f1f5;
+    --bg-soft: #f7f8fb;
+    --bg-card: #fbfcfe;
+    --indigo: #4b54d6;
+    --violet: #9333ea;
+    --teal: #0d9488;
+    --blue: #2563eb;
+    --green: #15a34a;
+    --amber: #b45309;
+    --grad: linear-gradient(120deg, #6c8cff 0%, #b06cff 52%, #36d6c3 100%);
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --sans: 'Inter', -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #54585f; }
+  body {
+    font-family: var(--sans); color: var(--body);
+    line-height: 1.55; -webkit-font-smoothing: antialiased;
+    font-size: 10.5pt;
+  }
+  .mono { font-family: var(--mono); }
+  a { color: var(--indigo); text-decoration: none; }
+
+  /* ---- A4 page ---- */
+  .page {
+    position: relative;
+    width: 210mm; height: 297mm;
+    margin: 8mm auto;
+    background: #fff; color: var(--body);
+    overflow: hidden;
+    box-shadow: 0 6px 30px rgba(0,0,0,.35);
+    padding: 14mm 15mm 12mm;
+  }
+  @page { size: A4; margin: 0; }
+  @media print {
+    html, body { background: #fff; }
+    .page { margin: 0; box-shadow: none; page-break-after: always; break-after: page; }
+    .page:last-child { page-break-after: auto; break-after: auto; }
+  }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  /* ---- shared bits ---- */
+  .eyebrow { font-family: var(--mono); font-size: 8pt; font-weight: 700; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--indigo); display: flex; align-items: center; gap: 8px; }
+  .eyebrow::before { content: ""; width: 16px; height: 2px; background: var(--indigo); border-radius: 2px; }
+  .eyebrow .n { color: var(--faint); }
+  h2.sec { font-size: 17pt; font-weight: 800; color: var(--ink); letter-spacing: -.02em; margin: 7px 0 2px; }
+  .sec-lead { color: var(--dim); font-size: 9.5pt; max-width: 150mm; }
+  .block { margin-bottom: 7.5mm; }
+  b, strong { color: var(--ink); font-weight: 700; }
+
+  /* ---- page 1 header band ---- */
+  .hero {
+    margin: -14mm -15mm 7mm; padding: 13mm 15mm 11mm;
+    background: #0d1117;
+    background-image:
+      radial-gradient(520px 240px at 88% -20%, rgba(176,108,255,.42), transparent 60%),
+      radial-gradient(560px 260px at 0% 0%, rgba(108,140,255,.40), transparent 58%),
+      radial-gradient(420px 220px at 60% 130%, rgba(54,214,195,.30), transparent 60%);
+    color: #fff;
+    display: flex; align-items: center; gap: 11mm;
+  }
+  .hero .photo {
+    flex: 0 0 32mm; width: 32mm; height: 32mm; border-radius: 50%;
+    object-fit: cover; border: 2.5px solid rgba(255,255,255,.85);
+    box-shadow: 0 6px 24px rgba(0,0,0,.4);
+  }
+  .hero .htext { flex: 1; }
+  .hero .avail { font-family: var(--mono); font-size: 8pt; color: #cdd3e0; display: inline-flex;
+    align-items: center; gap: 7px; border: 1px solid rgba(255,255,255,.22); border-radius: 999px;
+    padding: 4px 11px; margin-bottom: 9px; }
+  .hero .avail .led { width: 7px; height: 7px; border-radius: 50%; background: #3fe07a; box-shadow: 0 0 8px #3fe07a; }
+  .hero h1 { font-size: 27pt; font-weight: 900; letter-spacing: -.03em; line-height: 1.04; color: #fff; }
+  .hero h1 .accent { background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero .role { font-family: var(--mono); font-size: 10pt; color: #aeb6c6; margin-top: 9px; }
+  .hero .role b { color: #fff; }
+  .hero .contacts { display: flex; flex-wrap: wrap; gap: 5px 9px; margin-top: 12px; font-family: var(--mono); font-size: 8pt; }
+  .hero .contacts a, .hero .contacts span { color: #cdd3e0; border: 1px solid rgba(255,255,255,.18);
+    border-radius: 6px; padding: 4px 9px; background: rgba(255,255,255,.04); }
+  .hero .contacts a b { color: #fff; font-weight: 600; }
+
+  /* ---- badges row ---- */
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 1mm; }
+  .badge { font-family: var(--mono); font-size: 8pt; color: var(--dim);
+    border: 1px solid var(--line); border-radius: 7px; padding: 5px 10px; background: var(--bg-soft); }
+  .badge b { color: var(--indigo); }
+
+  /* ---- stats ---- */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4mm; margin-top: 6mm; }
+  .stat { border: 1px solid var(--line); border-radius: 11px; padding: 5mm 4mm; background: var(--bg-card);
+    position: relative; overflow: hidden; }
+  .stat::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--grad); }
+  .stat .num { font-family: var(--mono); font-size: 21pt; font-weight: 800; color: var(--indigo); letter-spacing: -.02em; line-height: 1; }
+  .stat .lbl { color: var(--dim); font-size: 8pt; margin-top: 6px; line-height: 1.4; }
+
+  /* ---- about ---- */
+  .about p { color: var(--body); font-size: 9.7pt; margin-bottom: 8px; line-height: 1.65; }
+  .about .quote { font-family: var(--mono); color: var(--teal); font-size: 9pt; margin-bottom: 10px; }
+
+  /* ---- skills ---- */
+  .skill-row { display: grid; grid-template-columns: 34mm 1fr; gap: 5mm; align-items: start; padding: 3mm 0; border-bottom: 1px solid var(--line-soft); }
+  .skill-row:last-child { border-bottom: none; }
+  .skill-row .gl { font-family: var(--mono); font-size: 8.5pt; font-weight: 700; color: var(--violet); padding-top: 2px; }
+  .skill-row .gl .h { color: var(--faint); font-weight: 400; }
+  .stack { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip { font-family: var(--mono); font-size: 8pt; padding: 4px 9px; border-radius: 7px;
+    background: var(--bg-soft); border: 1px solid var(--line); color: var(--dim); }
+
+  /* ---- project cards ---- */
+  .pcard { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin-bottom: 4.5mm; }
+  .pcard .top { display: flex; align-items: center; gap: 9px; padding: 3.2mm 4mm; background: var(--bg-soft); border-bottom: 1px solid var(--line); }
+  .pcard .fname { font-family: var(--mono); font-size: 8pt; color: var(--faint); }
+  .pcard .ttl { font-size: 12.5pt; font-weight: 800; color: var(--ink); letter-spacing: -.01em; }
+  .pcard .role { margin-left: auto; font-family: var(--mono); font-size: 7.5pt; font-weight: 700; padding: 3px 9px; border-radius: 6px; }
+  .pcard .role.lead { color: var(--green); background: rgba(21,163,74,.1); border: 1px solid rgba(21,163,74,.28); }
+  .pcard .role.sub { color: var(--blue); background: rgba(37,99,235,.1); border: 1px solid rgba(37,99,235,.28); }
+  .pcard .body { padding: 4mm 4mm 4.2mm; }
+  .pcard .meta { font-family: var(--mono); font-size: 7.5pt; color: var(--faint); }
+  .pcard .oneline { color: var(--ink); font-size: 9.7pt; font-weight: 600; margin: 5px 0 7px; }
+  .pcard ul { list-style: none; display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; }
+  .pcard li { color: var(--body); font-size: 9pt; padding-left: 15px; position: relative; line-height: 1.5; }
+  .pcard li::before { content: "▹"; position: absolute; left: 0; color: var(--indigo); }
+  .ptech { display: flex; flex-wrap: wrap; gap: 5px; }
+  .ptech span { font-family: var(--mono); font-size: 7.5pt; color: var(--teal); background: #fff;
+    border: 1px solid var(--line); padding: 3px 8px; border-radius: 6px; }
+  .metric-row { display: flex; gap: 7mm; margin: 2px 0 9px; }
+  .metric .mv { font-family: var(--mono); font-size: 15pt; font-weight: 800; color: var(--green); line-height: 1; }
+  .metric .ml { font-size: 7.5pt; color: var(--faint); margin-top: 3px; }
+  .plinks { display: flex; gap: 14px; margin-top: 9px; font-family: var(--mono); font-size: 8pt; font-weight: 600; }
+
+  /* ---- mini cards ---- */
+  .minis { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+  .mini { border: 1px solid var(--line); border-radius: 11px; padding: 4mm; }
+  .mini h4 { font-size: 11pt; font-weight: 800; color: var(--ink); }
+  .mini .meta { font-family: var(--mono); font-size: 7.5pt; color: var(--faint); margin: 3px 0 7px; }
+  .mini p { color: var(--body); font-size: 8.7pt; line-height: 1.5; }
+  .mini .bigm { font-family: var(--mono); font-size: 8pt; font-weight: 700; color: var(--amber); margin: 8px 0 7px; }
+
+  /* ---- Tri-CHEF axes ---- */
+  .axes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; }
+  .axis { border: 1px solid var(--line); border-radius: 11px; padding: 4mm; position: relative; overflow: hidden; }
+  .axis::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .axis.v::before { background: var(--blue); } .axis.l::before { background: var(--violet); } .axis.s::before { background: var(--teal); }
+  .axis .tag { font-family: var(--mono); font-size: 7.5pt; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
+  .axis.v .tag { color: var(--blue); } .axis.l .tag { color: var(--violet); } .axis.s .tag { color: var(--teal); }
+  .axis h4 { font-size: 13pt; font-weight: 800; color: var(--ink); margin: 5px 0 4px; }
+  .axis p { font-size: 8.5pt; color: var(--dim); line-height: 1.45; }
+  .fuse-eq { text-align: center; margin-top: 4mm; font-family: var(--mono); font-size: 8.5pt; color: var(--dim);
+    background: var(--bg-soft); border: 1px solid var(--line); border-radius: 10px; padding: 4mm; }
+  .fuse-eq b { color: var(--teal); }
+
+  /* ---- performance ---- */
+  .perf { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+  .perf-card { border: 1px solid var(--line); border-radius: 11px; padding: 4mm; }
+  .perf-card .ph { font-family: var(--mono); font-size: 8pt; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+  .perf-card.inh .ph { color: var(--teal); } .perf-card.pub .ph { color: var(--blue); }
+  .perf-card .pnote { color: var(--faint); font-size: 7.5pt; margin: 3px 0 8px; }
+  .mrow { display: flex; justify-content: space-between; align-items: baseline; padding: 5px 0; border-bottom: 1px solid var(--line-soft); }
+  .mrow:last-child { border-bottom: none; }
+  .mrow .mk { color: var(--dim); font-size: 8.5pt; }
+  .mrow .mv { font-family: var(--mono); font-weight: 700; font-size: 11pt; color: var(--ink); }
+  .scope { margin-top: 4mm; background: #fffaf0; border: 1px solid #f3e2c0; border-left: 3px solid var(--amber);
+    border-radius: 9px; padding: 3.5mm 4mm; color: var(--dim); font-size: 8.2pt; line-height: 1.5; }
+  .scope b { color: var(--amber); }
+
+  /* ---- paper ---- */
+  .paper { border: 1px solid var(--line); border-radius: 12px; padding: 4.5mm; background: var(--bg-card); }
+  .paper .pt { font-size: 11pt; font-weight: 800; color: var(--ink); line-height: 1.35; }
+  .paper .authors { color: var(--dim); font-size: 8.5pt; margin-top: 8px; line-height: 1.5; }
+  .paper .authors b { color: var(--indigo); }
+  .paper .pmeta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+  .paper .pmeta span { font-family: var(--mono); font-size: 7.5pt; color: var(--dim); background: var(--bg-soft);
+    border: 1px solid var(--line); padding: 3px 9px; border-radius: 6px; }
+
+  /* ---- contact ---- */
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+  .citem { border: 1px solid var(--line); border-radius: 10px; padding: 4mm; display: flex; flex-direction: column; gap: 2px; }
+  .citem .ck { font-family: var(--mono); font-size: 7.5pt; color: var(--faint); text-transform: uppercase; letter-spacing: .08em; }
+  .citem .cv { font-size: 10pt; font-weight: 600; color: var(--ink); }
+
+  /* ---- footer note ---- */
+  .pgfoot { position: absolute; bottom: 7mm; left: 15mm; right: 15mm; display: flex; justify-content: space-between;
+    font-family: var(--mono); font-size: 7.5pt; color: var(--faint); border-top: 1px solid var(--line-soft); padding-top: 4px; }
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1 ============ -->
+<div class="page">
+  <div class="hero">
+    <img class="photo" src="assets/profile.jpg" alt="이훤">
+    <div class="htext">
+      <span class="avail"><span class="led"></span> available for hire · 신입 AI 엔지니어</span>
+      <h1>이훤 <span class="accent">Hwon Lee</span></h1>
+      <div class="role">멀티모달 <b>RAG</b> · <b>LangGraph 에이전트</b>를 풀스택으로 구현하는 AI 엔지니어</div>
+      <div class="contacts">
+        <a href="mailto:wob0217@gmail.com"><b>✉</b> wob0217@gmail.com</a>
+        <a href="https://github.com/LeeHwon0217"><b>↗</b> github.com/LeeHwon0217</a>
+        <a href="https://hubo0217.tistory.com"><b>↗</b> hubo0217.tistory.com</a>
+        <span>1998 · 서울</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="badges">
+    <div class="badge"><b>논문 공저</b> · Zenodo · 2저자</div>
+    <div class="badge"><b>풀스택</b> · 기획 → 배포</div>
+    <div class="badge"><b>PM</b> · 팀장 ×2 · 부팀장 ×1</div>
+    <div class="badge"><b>사내 AI 논문 강의</b> · 반장</div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="num">5</div><div class="lbl">완성한 풀스택<br>AI 프로젝트</div></div>
+    <div class="stat"><div class="num">2,000h</div><div class="lbl">AI 부트캠프<br>(945h + 1,115h)</div></div>
+    <div class="stat"><div class="num">1편</div><div class="lbl">공저 논문<br>(Zenodo · 2저자)</div></div>
+    <div class="stat"><div class="num">27.5×</div><div class="lbl">검색 변별력 향상<br>(단일 모델 대비)</div></div>
+  </div>
+
+  <div class="block about" style="margin-top:8mm;">
+    <div class="eyebrow"><span class="n">01</span> about</div>
+    <h2 class="sec">복잡한 AI를, 누구나 쓸 수 있게</h2>
+    <p class="quote">// "AI를 만드는 사람"을 넘어 "AI를 쓰게 만드는 사람"</p>
+    <p>AI를 깊이 연구하는 일과, 그 결과를 누구나 쓰는 제품으로 만드는 일을 함께 해 왔습니다. 3개 모델로 임베딩한 결과를 독립된 축으로 결합해 올바른 파일을 가려내는 <b>변별력을 단일 모델 대비 27.5배</b>로 높인 멀티모달 검색 기법을 논문으로 공저(2저자)했고, 그 검색 엔진 위에 로컬 RAG 응답 시스템 <b>AIMODE</b>를 직접 만들었습니다.</p>
+    <p>무엇을 만들든 <b>"전문 지식이 없는 사람도 이걸 쓸 수 있는가?"</b>를 첫 기준으로 삼습니다. 집안 사정으로 학업을 멈추고 수년간 생계를 책임진 뒤 다시 이 길로 돌아왔고, 복귀를 위해 <b>2,000시간(945h + 1,115h, 13개월)</b>의 부트캠프를 거쳤습니다. 첫 과정에서 뒤처진 경험 때문에, 두 번째 과정에서는 반장을 맡아 매주 일요일 논문·최신 AI를 직접 정리해 강의했고 <b>한 명의 낙오자도 없이</b> 모두가 수료했습니다.</p>
+  </div>
+
+  <div class="pgfoot"><span>이훤 · Hwon Lee — AI Engineer Portfolio</span><span>01 / 04</span></div>
+</div>
+
+<!-- ============ PAGE 2 ============ -->
+<div class="page">
+  <div class="block">
+    <div class="eyebrow"><span class="n">02</span> skills</div>
+    <h2 class="sec">기술 스택</h2>
+    <div style="margin-top:3mm;">
+      <div class="skill-row">
+        <div class="gl"><span class="h">import</span> llm_rag_agent</div>
+        <div class="stack">
+          <span class="chip">LangChain</span><span class="chip">LangGraph</span><span class="chip">RAG</span><span class="chip">Ollama</span><span class="chip">HuggingFace</span><span class="chip">OpenAI / Gemini</span><span class="chip">ChromaDB</span><span class="chip">Prompt Engineering</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="gl"><span class="h">import</span> computer_vision</div>
+        <div class="stack">
+          <span class="chip">YOLOv8</span><span class="chip">MediaPipe</span><span class="chip">SigLIP2</span><span class="chip">DINOv2</span><span class="chip">OpenCV</span><span class="chip">VARCO / Qwen OCR</span><span class="chip">Whisper</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="gl"><span class="h">import</span> ml_dl</div>
+        <div class="stack">
+          <span class="chip">PyTorch</span><span class="chip">TensorFlow</span><span class="chip">RQ-VAE</span><span class="chip">XGBoost</span><span class="chip">scikit-learn</span><span class="chip">Reinforcement Learning</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="gl"><span class="h">import</span> backend</div>
+        <div class="stack">
+          <span class="chip">FastAPI</span><span class="chip">Flask</span><span class="chip">Express / Node</span><span class="chip">Spring Boot</span><span class="chip">MySQL</span><span class="chip">MongoDB</span><span class="chip">SQLite</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="gl"><span class="h">import</span> frontend_infra</div>
+        <div class="stack">
+          <span class="chip">Next.js / React</span><span class="chip">TypeScript</span><span class="chip">Electron</span><span class="chip">Tailwind CSS</span><span class="chip">Docker</span><span class="chip">AWS (EC2/S3)</span><span class="chip">Git / Jira</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="eyebrow"><span class="n">03</span> projects</div>
+    <h2 class="sec">기획부터 배포까지 직접 만든 것들</h2>
+  </div>
+
+  <article class="pcard">
+    <div class="top"><span class="fname">aimind/</span><span class="ttl">아이마음 (AiMind)</span><span class="role lead">팀장</span></div>
+    <div class="body">
+      <div class="meta">2025.02–03 · 기획 / 풀스택 / 아키텍처 / E2E 파이프라인</div>
+      <div class="oneline">부모가 아이의 그림(HTP)을 올리면 AI가 전문가 수준의 심리 발달 리포트를 만들어주는 서비스.</div>
+      <ul>
+        <li><b>YOLOv8</b>로 나무·집·사람 그림 요소를 탐지하고, 청크 문제는 <b>Gemini API로 요소-설명 JSON</b>을 만들어 해결했습니다.</li>
+        <li>후속 질문용 <b>LangGraph 챗봇</b>과 그림일기 손글씨 인식용 <b>VARCO VLM OCR</b>을 붙였습니다.</li>
+        <li>Frontend·Backend·AI·OCR <b>4개 마이크로서비스를 Docker화</b>해 AWS EC2(CPU/GPU 분리)에 배포했습니다.</li>
+      </ul>
+      <div class="ptech"><span>YOLOv8</span><span>Gemini</span><span>LangGraph</span><span>VARCO-VISION</span><span>FastAPI</span><span>Next.js</span><span>AWS</span><span>Docker</span></div>
+      <div class="plinks"><a href="https://github.com/Oneness-TheOne">↗ github.com/Oneness-TheOne</a></div>
+    </div>
+  </article>
+
+  <article class="pcard">
+    <div class="top"><span class="fname">yuzy/</span><span class="ttl">유지프로젝트 (YUZY)</span><span class="role lead">팀장</span></div>
+    <div class="body">
+      <div class="meta">2025.12–2026.01 · 기획 / 풀스택 / 아키텍처 / E2E 파이프라인</div>
+      <div class="oneline">빠른 진도를 따라가기 힘든 국비 학생을 위한 코드 학습 지원 플랫폼.</div>
+      <ul>
+        <li>드래그-클립보드 <b>원스탑 OCR</b> — 좌표는 <b>Tesseract</b>, 글자는 <b>WinRT</b>로 잡아 혼용해 코드 인식률을 높였습니다.</li>
+        <li><b>Qwen2.5-Coder</b>로 코드 폴더의 함수 간 연결성을 분석해 다이어그램으로 시각화했습니다.</li>
+        <li>원생끼리 묻고 답하는 커뮤니티 게시판까지 풀스택으로 구현했습니다.</li>
+      </ul>
+      <div class="ptech"><span>Qwen2.5-Coder</span><span>Tesseract</span><span>WinRT OCR</span><span>FastAPI</span><span>Next.js</span><span>Express</span></div>
+      <div class="plinks"><a href="https://github.com/ANGELS-JustDoIt">↗ github.com/ANGELS-JustDoIt</a></div>
+    </div>
+  </article>
+
+  <div class="pgfoot"><span>이훤 · Hwon Lee — AI Engineer Portfolio</span><span>02 / 04</span></div>
+</div>
+
+<!-- ============ PAGE 3 ============ -->
+<div class="page">
+  <div class="block">
+    <div class="eyebrow"><span class="n">★</span> flagship · 공저 논문</div>
+    <h2 class="sec">DB_Insight · Tri-CHEF</h2>
+    <div class="sec-lead">파일명을 몰라도 "내용"으로 찾고, 로컬 문서를 근거로 답까지 만들어주는 RAG 데스크탑 앱. 핵심 알고리즘 <b>Tri-CHEF</b>를 6인 공저 논문으로 공개했고, 저는 <b>2저자(Technical Master)</b>로 참여했습니다.</div>
+  </div>
+
+  <div class="metric-row" style="gap:10mm;margin-bottom:5mm;">
+    <div class="metric"><div class="mv">27.5×</div><div class="ml">검색 변별력 (단일 모델 대비)</div></div>
+    <div class="metric"><div class="mv" style="color:var(--indigo)">60 → 93%</div><div class="ml">Top-1 신뢰도 (1축 → 3축 결합)</div></div>
+    <div class="metric"><div class="mv" style="color:var(--teal)">5</div><div class="ml">통합 검색 도메인</div></div>
+  </div>
+
+  <div class="block">
+    <div class="axes">
+      <div class="axis v"><div class="tag">시각 축 · Real</div><h4>SigLIP2</h4><p>이미지·프레임의 시각적 내용을 인코딩.</p></div>
+      <div class="axis l"><div class="tag">언어 축 · Imag</div><h4>BGE-M3</h4><p>텍스트·캡션·STT 인코딩 (+스파스 인덱스).</p></div>
+      <div class="axis s"><div class="tag">구조 축 · Z</div><h4>DINOv2</h4><p>이미지의 구조·형태 특징을 인코딩.</p></div>
+    </div>
+    <div class="fuse-eq">
+      Query → SigLIP2(시각) + BGE-M3(언어) + DINOv2(구조) → <b>Complex Hermitian Fusion</b> → 유사도 점수
+    </div>
+  </div>
+
+  <article class="pcard">
+    <div class="top"><span class="fname">db_insight/</span><span class="ttl">핵심 기여</span><span class="role sub">부팀장 · 2저자</span></div>
+    <div class="body">
+      <ul>
+        <li>가중합 대신 세 인코더를 <b>복소 임베딩의 직교 축</b>에 배정하고 에르미트 절대값으로 결합해, 한 모델이 점수를 독점하지 않고 각 모델의 근거 축을 보존했습니다.</li>
+        <li>스캔 후 <b>전후 420자 자르기</b>로 청크 문제를 해결하고, '검색 → 스캔 → 선택 → 답변 작성'의 <b>LangGraph 에이전트(AIMODE)</b>를 직접 개발했습니다.</li>
+        <li>환각 차단(신뢰도 게이트)과 <b>Ollama 로컬 LLM</b>으로 데이터 외부 유출 0 — 출처 페이지까지 표시합니다.</li>
+        <li>음악 도메인은 의미축이 겹치지 않아 <b>의도적으로 융합하지 않고</b> CLAP+Chromaprint로 분리 처리 — "언제 융합하지 말아야 하는가"를 설계로 구분했습니다.</li>
+      </ul>
+      <div class="ptech"><span>SigLIP2</span><span>BGE-M3</span><span>DINOv2</span><span>Complex-Hermitian</span><span>LangGraph</span><span>Ollama</span><span>ChromaDB</span><span>Electron</span></div>
+    </div>
+  </article>
+
+  <div class="perf">
+    <div class="perf-card inh">
+      <div class="ph">자체 코퍼스 · 배포 시스템</div>
+      <div class="pnote">이미지 2,390 · 문서 34,661p · 영상 205 · 오디오 117</div>
+      <div class="mrow"><span class="mk">문서 R@5 (Leave-One-Out)</span><span class="mv" style="color:var(--green)">96.00%</span></div>
+      <div class="mrow"><span class="mk">문서 MRR</span><span class="mv">0.8893</span></div>
+      <div class="mrow"><span class="mk">Top-1 신뢰도 (한국어 15문항)</span><span class="mv">93%</span></div>
+      <div class="mrow"><span class="mk">이미지 검색 p95 지연</span><span class="mv">77 ms</span></div>
+    </div>
+    <div class="perf-card pub">
+      <div class="ph">공개 벤치 · MIRACL-ko</div>
+      <div class="pnote">213 dev 쿼리 · 위키피디아 1.486M passages</div>
+      <div class="mrow"><span class="mk">텍스트(Im) 축 nDCG@10</span><span class="mv" style="color:var(--blue)">77.82%</span></div>
+      <div class="mrow"><span class="mk">BGE-M3 dense baseline 대비</span><span class="mv">+7.92pp</span></div>
+      <div class="mrow"><span class="mk">검색 방식</span><span class="mv" style="font-size:9pt">exact FAISS</span></div>
+    </div>
+  </div>
+  <div class="scope">
+    <b>수치 범위 안내.</b> MIRACL-ko 77.82%는 <b>텍스트(언어) 축 단독</b> 성능이며 멀티모달 융합 결과가 아닙니다. 멀티모달 결합의 기여는 자체 코퍼스 평가(R@5·MRR·Top-1 신뢰도)로 별도 측정했습니다. 본 연구는 SOTA를 주장하지 않습니다.
+  </div>
+
+  <div class="pgfoot"><span>DB_Insight · Tri-CHEF — github.com/KDT-Chainers/DB_insight · zenodo.org/records/20046344</span><span>03 / 04</span></div>
+</div>
+
+<!-- ============ PAGE 4 ============ -->
+<div class="page">
+  <div class="block">
+    <div class="eyebrow"><span class="n">04</span> more projects</div>
+    <h2 class="sec">추가 프로젝트</h2>
+    <div class="minis" style="margin-top:3mm;">
+      <div class="mini">
+        <h4>KMDb 영화 추천</h4>
+        <div class="meta">생성형 추천 · 1인 기여</div>
+        <p>TIGER 논문 기반 생성형 추천. RQ-VAE로 Semantic ID를 만들고 Prefix Constrained Decoding으로 환각을 막았습니다.</p>
+        <div class="bigm">// 코드북 충돌 99.99% → 0.88% · 환각 100% 차단</div>
+        <div class="ptech"><span>PyTorch</span><span>RQ-VAE</span><span>T5</span><span>FastAPI</span></div>
+      </div>
+      <div class="mini">
+        <h4>국민체력지키미</h4>
+        <div class="meta">공공데이터 경진대회 출품</div>
+        <p>MediaPipe Pose로 33개 관절을 실시간 추적해 운동 자세 정확도를 피드백하고, XGBoost로 연령대별 운동을 처방합니다.</p>
+        <div class="bigm">// 실시간 30FPS · 관절 각도 기반 자세 분석</div>
+        <div class="ptech"><span>MediaPipe</span><span>XGBoost</span><span>GPT-4o-mini</span><span>React</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="eyebrow"><span class="n">★</span> paper</div>
+    <h2 class="sec">공개된 연구로 증명</h2>
+    <div class="paper" style="margin-top:3mm;">
+      <div class="pt">Tri-CHEF: Complex-Hermitian Embedding Fusion for Korean Multimodal Retrieval</div>
+      <div class="authors">Young-Sang Song*, <b>Hwon Lee (이훤) — 2저자 · Technical Master</b>, Ju Yeon Jang, Young Jin Hwang, Tae Yoon Lee, Jeong Hye Gim · Team Chainers, Korea IT Academy (KDT)</div>
+      <div class="pmeta">
+        <span>Zenodo · 2026-05</span>
+        <span>CC BY 4.0</span>
+        <span>DOI: 10.5281/zenodo.20034370</span>
+        <span>영문 12p · 국문 13p</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="eyebrow"><span class="n">05</span> contact</div>
+    <h2 class="sec">함께 문제를 풀고 싶습니다</h2>
+    <div class="contact-grid" style="margin-top:3mm;">
+      <div class="citem"><span class="ck">Email</span><span class="cv"><a href="mailto:wob0217@gmail.com">wob0217@gmail.com</a></span></div>
+      <div class="citem"><span class="ck">GitHub</span><span class="cv"><a href="https://github.com/LeeHwon0217">github.com/LeeHwon0217</a></span></div>
+      <div class="citem"><span class="ck">Blog</span><span class="cv"><a href="https://hubo0217.tistory.com">hubo0217.tistory.com</a></span></div>
+      <div class="citem"><span class="ck">Paper</span><span class="cv"><a href="https://zenodo.org/records/20046344">zenodo.org/records/20046344</a></span></div>
+    </div>
+  </div>
+
+  <div class="pgfoot"><span>© 2026 이훤 · Hwon Lee</span><span>04 / 04</span></div>
+</div>
+
+</body>
+</html>
